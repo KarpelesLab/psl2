@@ -2,7 +2,9 @@
 name = "psl2"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.70"
+# MSRV is driven by the `idna` dependency tree (icu/idna_adapter require 1.86).
+# Building with `default-features = false` (no IDNA) works on much older Rust.
+rust-version = "1.86"
 description = "A modern alternative to the psl crate: Mozilla's Public Suffix List with built-in IDNA, fast builds, and a clean API."
 repository = "https://github.com/KarpelesLab/psl2"
 homepage = "https://github.com/KarpelesLab/psl2"

@@ -16,7 +16,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rust: [stable, "1.70"]
+        # 1.86 is the MSRV (driven by the idna/icu dependency tree).
+        rust: [stable, "1.86"]
     steps:
       - uses: actions/checkout@v6
       - uses: dtolnay/rust-toolchain@master

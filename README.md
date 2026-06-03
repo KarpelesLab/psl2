@@ -91,6 +91,8 @@ tell the sections apart when it matters.
 
 ## MSRV
 
+Rust **1.86**, set by the `idna` dependency tree (the `icu` crates). Building
+with `default-features = false` (no IDNA) removes that constraint and only needs
 Rust 1.70 (for `std::sync::OnceLock`).
 
 ## License
