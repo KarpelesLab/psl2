@@ -49,8 +49,23 @@ assert_eq!(d.registrable_domain(), Some("example.co.uk"));
 assert_eq!(d.subdomain(), Some("www"));
 ```
 
-The ergonomic `analyze`/`suffix`/… functions that normalize arbitrary or
-Unicode input live behind the (default) `alloc` / `idna` features.
+For embedded / allocator-free builds, turn the default features off:
+
+```toml
+[dependencies]
+psl2 = { version = "0.1", default-features = false }
+```
+
+With no features, you still get a borrowing [`Domain`] object via `lookup` —
+plus the [`compat`](#migrating-from-the-psl-crate) module's `domain`/`suffix`
+helpers over `&[u8]`. This is the same allocator-free, zero-copy capability the
+[`psl`] crate offers by default (and a *lighter compile*, since `psl2` embeds
+the list as a data trie rather than ~100k lines of generated `match` code), so
+the bare core is a near drop-in for `psl` on `no_std` targets. The only
+`alloc`-gated items are the ones that must own or normalize: the `Info` struct
+and the `String`-returning `analyze`/`suffix`/… convenience functions.
+
+[`Domain`]: https://docs.rs/psl2/latest/psl2/struct.Domain.html
 
 ## Why another crate?
 
