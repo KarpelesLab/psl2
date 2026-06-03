@@ -79,10 +79,13 @@ is designed around a few principles:
   costs almost nothing in compile time — a few hundred lines of code plus an
   opaque data blob, versus the ~100k lines of generated `match` code the
   [`psl`] crate makes every consumer compile.
-- **Lookups in the ~50–120 ns range**, allocation-free and stable across
-  hostname depth. This is plenty for typical cookie/URL work (~10M lookups/s
-  per core), but note `psl2` does *not* aim to beat `psl` on raw latency: `psl`
-  compiles the list straight to branch code and is several times faster per
+- **Lookups in the ~45–95 ns range**, allocation-free and stable across
+  hostname depth. The embedded blobs are decoded into native node/edge arrays
+  **at compile time**, so a lookup reads native fields with no byte assembly or
+  endian conversion — performance is identical on little- and big-endian
+  targets. This is plenty for typical cookie/URL work (~15M lookups/s per
+  core), but note `psl2` does *not* aim to beat `psl` on raw latency: `psl`
+  compiles the list straight to branch code and is still a few times faster per
   lookup. `psl2` trades that for far cheaper compiles, built-in IDNA, and a
   clean API. (See `compare-psl/` for the head-to-head benchmark.)
 - **`no_std` + `no_alloc` core**, usable on embedded targets.

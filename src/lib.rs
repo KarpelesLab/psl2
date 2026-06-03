@@ -104,13 +104,21 @@ pub mod compat;
 /// stored right-to-left (`co.uk` → root → `uk` → `co`), so a single descent
 /// from the TLD replaces a binary search per candidate suffix.
 ///
-/// `NODES`: 8 bytes/node — `edge_start: u32`, `edge_count: u16`, `flags: u8`,
-/// pad. `EDGES`: 9 bytes/edge — `label_off: u32`, `label_len: u8`,
-/// `child: u32`; a node's edges are contiguous and sorted by label.
-/// `LABELS`: every edge label concatenated.
-static NODES: &[u8] = include_bytes!("trie_nodes.bin");
-static EDGES: &[u8] = include_bytes!("trie_edges.bin");
-static LABELS: &str = include_str!("trie_labels.txt");
+/// On disk the blobs are little-endian: 8 bytes/node (`edge_start: u32`,
+/// `edge_count: u16`, `flags: u8`, pad) and 9 bytes/edge (`label_off: u32`,
+/// `label_len: u8`, `child: u32`); a node's edges are contiguous and sorted by
+/// label. `LABELS` is every edge label concatenated (ASCII).
+///
+/// They are decoded into native [`Node`] / [`Edge`] arrays **at compile time**
+/// (see [`decode_nodes`] / [`decode_edges`]), so lookups read native fields
+/// with no byte assembly or endian conversion — identical cost on little- and
+/// big-endian targets.
+const NODES_RAW: &[u8] = include_bytes!("trie_nodes.bin");
+const EDGES_RAW: &[u8] = include_bytes!("trie_edges.bin");
+const LABELS: &[u8] = include_bytes!("trie_labels.txt");
+
+const N_NODES: usize = NODES_RAW.len() / 8;
+const N_EDGES: usize = EDGES_RAW.len() / 9;
 
 // Node flag bits (kept in sync with `xtask`).
 const F_RULE: u8 = 1;
@@ -120,40 +128,99 @@ const F_WILD_PRIV: u8 = 8;
 const F_EXC: u8 = 16;
 const F_EXC_PRIV: u8 = 32;
 
-#[inline]
-fn le_u32(b: &[u8], o: usize) -> usize {
-    u32::from_le_bytes([b[o], b[o + 1], b[o + 2], b[o + 3]]) as usize
+/// A trie node, decoded from the embedded blob at compile time.
+#[derive(Clone, Copy)]
+struct Node {
+    edge_start: u32,
+    edge_count: u16,
+    flags: u8,
 }
+
+/// A trie edge, decoded from the embedded blob at compile time.
+#[derive(Clone, Copy)]
+struct Edge {
+    label_off: u32,
+    label_len: u8,
+    child: u32,
+}
+
+const fn rd_u32(b: &[u8], o: usize) -> u32 {
+    (b[o] as u32) | ((b[o + 1] as u32) << 8) | ((b[o + 2] as u32) << 16) | ((b[o + 3] as u32) << 24)
+}
+
+const fn rd_u16(b: &[u8], o: usize) -> u16 {
+    (b[o] as u16) | ((b[o + 1] as u16) << 8)
+}
+
+/// Decode the little-endian node blob into native records (compile time only).
+const fn decode_nodes() -> [Node; N_NODES] {
+    let mut out = [Node {
+        edge_start: 0,
+        edge_count: 0,
+        flags: 0,
+    }; N_NODES];
+    let mut i = 0;
+    while i < N_NODES {
+        let o = i * 8;
+        out[i] = Node {
+            edge_start: rd_u32(NODES_RAW, o),
+            edge_count: rd_u16(NODES_RAW, o + 4),
+            flags: NODES_RAW[o + 6],
+        };
+        i += 1;
+    }
+    out
+}
+
+/// Decode the little-endian edge blob into native records (compile time only).
+const fn decode_edges() -> [Edge; N_EDGES] {
+    let mut out = [Edge {
+        label_off: 0,
+        label_len: 0,
+        child: 0,
+    }; N_EDGES];
+    let mut j = 0;
+    while j < N_EDGES {
+        let o = j * 9;
+        out[j] = Edge {
+            label_off: rd_u32(EDGES_RAW, o),
+            label_len: EDGES_RAW[o + 4],
+            child: rd_u32(EDGES_RAW, o + 5),
+        };
+        j += 1;
+    }
+    out
+}
+
+static NODES: [Node; N_NODES] = decode_nodes();
+static EDGES: [Edge; N_EDGES] = decode_edges();
 
 /// A node's `(edge_start, edge_count, flags)`.
 #[inline]
 fn node_rec(i: usize) -> (usize, usize, u8) {
-    let o = i * 8;
-    let edge_start = le_u32(NODES, o);
-    let edge_count = u16::from_le_bytes([NODES[o + 4], NODES[o + 5]]) as usize;
-    (edge_start, edge_count, NODES[o + 6])
+    let n = &NODES[i];
+    (n.edge_start as usize, n.edge_count as usize, n.flags)
 }
 
-/// An edge's `(label, child_node)`.
+/// An edge's label bytes (ASCII).
 #[inline]
-fn edge_rec(j: usize) -> (&'static str, usize) {
-    let o = j * 9;
-    let label_off = le_u32(EDGES, o);
-    let label_len = EDGES[o + 4] as usize;
-    let child = le_u32(EDGES, o + 5);
-    (&LABELS[label_off..label_off + label_len], child)
+fn edge_label(e: &Edge) -> &'static [u8] {
+    let off = e.label_off as usize;
+    &LABELS[off..off + e.label_len as usize]
 }
 
 /// The child reached from edge range `[start, start + count)` by `label`.
+///
+/// Edges are sorted by label, so this binary-searches. Only the label is
+/// touched per probe; the child index is read once, on a match.
 #[inline]
-fn find_child(start: usize, count: usize, label: &str) -> Option<usize> {
-    let kb = label.as_bytes();
+fn find_child(start: usize, count: usize, label: &[u8]) -> Option<usize> {
     let (mut lo, mut hi) = (start, start + count);
     while lo < hi {
         let mid = lo + (hi - lo) / 2;
-        let (elabel, child) = edge_rec(mid);
-        match kb.cmp(elabel.as_bytes()) {
-            Ordering::Equal => return Some(child),
+        let e = &EDGES[mid];
+        match label.cmp(edge_label(e)) {
+            Ordering::Equal => return Some(e.child as usize),
             Ordering::Less => hi = mid,
             Ordering::Greater => lo = mid + 1,
         }
@@ -247,7 +314,7 @@ fn compute(ascii: &str) -> Option<Parts> {
         if consumed == n {
             break;
         }
-        match find_child(edge_start, edge_count, label(n - 1 - consumed)) {
+        match find_child(edge_start, edge_count, label(n - 1 - consumed).as_bytes()) {
             Some(child) => {
                 node = child;
                 consumed += 1;
