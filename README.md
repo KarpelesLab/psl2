@@ -72,12 +72,19 @@ and the `String`-returning `analyze`/`suffix`/… convenience functions.
 The existing `psl` and `publicsuffix` crates work, but have rough edges. `psl2`
 is designed around a few principles:
 
-- **Fast builds, fast lookups.** The list is normalized to ASCII **at publish
-  time** and embedded as a flattened **reversed-label trie** via
-  `include_bytes!`, walked from the TLD inward with no allocation. There is no
-  `build.rs`, no procedural-macro codegen, and no per-build list processing, so
-  adding `psl2` costs almost nothing in compile time. A typical lookup is a few
-  tens of nanoseconds and does not slow down for deep hostnames.
+- **Fast builds.** The list is normalized to ASCII **at publish time** and
+  embedded as a flattened **reversed-label trie** via `include_bytes!`, walked
+  from the TLD inward with no allocation. There is no `build.rs`, no
+  procedural-macro codegen, and no per-build list processing, so adding `psl2`
+  costs almost nothing in compile time — a few hundred lines of code plus an
+  opaque data blob, versus the ~100k lines of generated `match` code the
+  [`psl`] crate makes every consumer compile.
+- **Lookups in the ~50–120 ns range**, allocation-free and stable across
+  hostname depth. This is plenty for typical cookie/URL work (~10M lookups/s
+  per core), but note `psl2` does *not* aim to beat `psl` on raw latency: `psl`
+  compiles the list straight to branch code and is several times faster per
+  lookup. `psl2` trades that for far cheaper compiles, built-in IDNA, and a
+  clean API. (See `compare-psl/` for the head-to-head benchmark.)
 - **`no_std` + `no_alloc` core**, usable on embedded targets.
 - **Built-in IDNA.** You pass a `&str` hostname — Unicode or not — and `psl2`
   normalizes it for you. No need to punycode-encode input yourself.

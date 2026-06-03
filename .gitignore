@@ -1,2 +1,5 @@
 /target
 /Cargo.lock
+# The workspace-excluded psl comparison crate is its own build root.
+/compare-psl/target
+/compare-psl/Cargo.lock

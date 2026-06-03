@@ -1,0 +1,28 @@
+[package]
+name = "compare-psl"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+# A standalone, workspace-excluded crate whose ONLY purpose is to benchmark
+# `psl2` against the original `psl` crate. `psl` is a heavy (~2.5 MB of
+# generated code) dependency, so it is deliberately kept out of `psl2`'s own
+# dependency graph — it is only ever built when you run this comparison.
+#
+#   cargo bench --manifest-path compare-psl/Cargo.toml
+
+[dependencies]
+
+[dev-dependencies]
+criterion = { version = "0.8", default-features = false, features = [
+    "cargo_bench_support",
+] }
+# The crate under comparison. No features needed: we compare the allocation-free
+# core (`lookup` / `compat`), which is the apples-to-apples match for `psl`.
+psl2 = { path = "..", default-features = false }
+# The original crate. Byte-oriented, no_std/no_alloc, case-sensitive.
+psl = "2"
+
+[[bench]]
+name = "vs_psl"
+harness = false

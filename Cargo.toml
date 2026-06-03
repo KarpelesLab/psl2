@@ -30,6 +30,9 @@ include = [
 
 [workspace]
 members = ["xtask"]
+# `compare-psl` pulls in the heavy `psl` crate purely for a latency comparison.
+# It is excluded so it never touches the library's own build/test/bench graph.
+exclude = ["compare-psl"]
 
 [dependencies]
 # Used only to normalize the *query* (Unicode -> ASCII/punycode). Optional and
