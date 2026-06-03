@@ -130,6 +130,18 @@ const LABELS: &[u8] = include_bytes!("trie_labels.txt");
 const N_NODES: usize = NODES_RAW.len() / 3;
 const N_EDGES: usize = count_edges();
 
+// `Edge::child` (a node index) and `Node::edge_start` (an edge index) are u16
+// to keep the decoded arrays compact. These guards fail the build if a future
+// list ever outgrows that — widen the fields (and re-check the layout) then.
+const _: () = assert!(
+    N_NODES <= u16::MAX as usize + 1,
+    "node count exceeds u16; widen Edge::child"
+);
+const _: () = assert!(
+    N_EDGES <= u16::MAX as usize + 1,
+    "edge count exceeds u16; widen Node::edge_start"
+);
+
 // Node flag bits (kept in sync with `xtask`).
 const F_RULE: u8 = 1;
 const F_RULE_PRIV: u8 = 2;
@@ -138,20 +150,20 @@ const F_WILD_PRIV: u8 = 8;
 const F_EXC: u8 = 16;
 const F_EXC_PRIV: u8 = 32;
 
-/// A trie node, decoded from the embedded blob at compile time.
+/// A trie node, decoded from the embedded blob at compile time. 6 bytes.
 #[derive(Clone, Copy)]
 struct Node {
-    edge_start: u32,
+    edge_start: u16,
     edge_count: u16,
     flags: u8,
 }
 
-/// A trie edge, decoded from the embedded blob at compile time.
+/// A trie edge, decoded from the embedded blob at compile time. 8 bytes.
 #[derive(Clone, Copy)]
 struct Edge {
     label_off: u32,
     label_len: u8,
-    child: u32,
+    child: u16,
 }
 
 const fn rd_u16(b: &[u8], o: usize) -> u16 {
@@ -183,7 +195,7 @@ const fn decode_nodes() -> [Node; N_NODES] {
         let o = i * 3;
         let edge_count = rd_u16(NODES_RAW, o);
         out[i] = Node {
-            edge_start,
+            edge_start: edge_start as u16,
             edge_count,
             flags: NODES_RAW[o + 2],
         };
@@ -227,7 +239,7 @@ const fn decode_edges() -> [Edge; N_EDGES] {
         out[j] = Edge {
             label_off,
             label_len,
-            child: child as u32,
+            child: child as u16,
         };
         label_off += label_len as u32;
         j += 1;
