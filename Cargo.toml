@@ -15,14 +15,13 @@ categories = ["web-programming", "parser-implementations"]
 # Allowlist: ship only the pre-generated data + sources. The raw .dat, the
 # xtask generator, and CI config are intentionally excluded from the package
 # so consumer builds stay tiny and fast.
+# Ship only the flattened trie + version. The human-readable rules*.txt are
+# generated into the repo for inspection/benchmarks but are not packaged.
 include = [
     "src/**/*.rs",
-    "src/rules.txt",
-    "src/rules.idx",
-    "src/wildcards.txt",
-    "src/wildcards.idx",
-    "src/exceptions.txt",
-    "src/exceptions.idx",
+    "src/trie_nodes.bin",
+    "src/trie_edges.bin",
+    "src/trie_labels.txt",
     "src/psl_version.txt",
     "README.md",
     "LICENSE-MIT",

@@ -112,10 +112,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           psl_version=$(cat src/psl_version.txt)
           git add Cargo.toml \
-                  src/rules.txt src/rules.idx \
-                  src/wildcards.txt src/wildcards.idx \
-                  src/exceptions.txt src/exceptions.idx \
-                  src/psl_version.txt src/generated.rs \
+                  src/trie_nodes.bin src/trie_edges.bin src/trie_labels.txt \
+                  src/rules.txt src/wildcards.txt src/exceptions.txt \
+                  src/psl_version.txt \
                   list/public_suffix_list.dat
           git commit -m "chore: update PSL to ${psl_version} (v${{ steps.bump.outputs.version }})"
           git tag "v${{ steps.bump.outputs.version }}"

@@ -1,19 +1,23 @@
 //! Build-time code generator for the `psl2` crate.
 //!
 //! Reads the vendored `list/public_suffix_list.dat`, normalizes every rule to
-//! ASCII/punycode (so the runtime never has to), and writes the data the
-//! library embeds and queries with a no-alloc, index-driven binary search:
+//! ASCII/punycode, and emits a flattened **reversed-label trie** that the
+//! library walks from the TLD inward with no allocation:
 //!
-//! * `src/{rules,wildcards,exceptions}.txt` — sorted `rule\tS` lines
-//!   (`S` = section: `I` ICANN, `P` PRIVATE), joined by `\n`, no trailing `\n`.
-//! * `src/{rules,wildcards,exceptions}.idx` — for each line, its `u32` LE byte
-//!   offset into the matching `.txt`, so the runtime can index lines directly
-//!   instead of scanning for newlines.
-//! * `src/psl_version.txt` — the upstream list version string.
-//! * `src/generated.rs` — `MAX_RULE_LABELS`, used to bound lookups.
+//! * `src/trie_nodes.bin` — 8 bytes/node: `edge_start: u32 LE`,
+//!   `edge_count: u16 LE`, `flags: u8`, pad. Node 0 is the root.
+//! * `src/trie_edges.bin` — 9 bytes/edge: `label_off: u32 LE`, `label_len: u8`,
+//!   `child: u32 LE`. A node's edges are contiguous and sorted by label.
+//! * `src/trie_labels.txt` — every edge label concatenated; an edge's label is
+//!   `labels[off .. off + len]`.
 //!
-//! Wildcard rules `*.Y` are stored as `Y` (e.g. `ck` for `*.ck`); exception
-//! rules `!X` as `X` (e.g. `www.ck`).
+//! `flags` bits: `RULE=1, RULE_PRIV=2, WILD=4, WILD_PRIV=8, EXC=16, EXC_PRIV=32`
+//! (a `_PRIV` bit means the rule came from the PRIVATE section).
+//!
+//! For human inspection and the benchmarks it also writes the sorted
+//! `src/{rules,wildcards,exceptions}.txt` (`rule\tS` lines; `S` = `I`/`P`) and
+//! `src/psl_version.txt`. Wildcard rules `*.Y` are stored as `Y`; exception
+//! rules `!X` as `X`.
 //!
 //! Runs at *publish* time (in CI), not on every consumer build:
 //!
@@ -26,6 +30,20 @@ use std::fs;
 use std::process::ExitCode;
 
 const SRC: &str = "list/public_suffix_list.dat";
+
+// Node flag bits (kept in sync with `src/lib.rs`).
+const F_RULE: u8 = 1;
+const F_RULE_PRIV: u8 = 2;
+const F_WILD: u8 = 4;
+const F_WILD_PRIV: u8 = 8;
+const F_EXC: u8 = 16;
+const F_EXC_PRIV: u8 = 32;
+
+#[derive(Default)]
+struct Node {
+    children: BTreeMap<String, usize>, // label -> node index (sorted by label)
+    flags: u8,
+}
 
 fn main() -> ExitCode {
     let raw = match fs::read_to_string(SRC) {
@@ -98,60 +116,102 @@ fn main() -> ExitCode {
         table.insert(ascii, section);
     }
 
-    // `MAX_RULE_LABELS` bounds how many trailing labels a lookup must consider:
-    // rules count their labels; a `*.Y` wildcard counts `Y`'s labels plus one.
-    let labels = |s: &str| s.split('.').count();
-    let max_rule_labels = rules
-        .keys()
-        .map(|r| labels(r))
-        .chain(exceptions.keys().map(|r| labels(r)))
-        .chain(wildcards.keys().map(|y| labels(y) + 1))
-        .max()
-        .unwrap_or(1);
+    // Build the reversed-label trie in an arena (node 0 = root).
+    let mut nodes: Vec<Node> = vec![Node::default()];
+    let priv_bit = |sec: char, bit: u8| if sec == 'P' { bit } else { 0 };
+    for (rule, &sec) in &rules {
+        let n = insert(&mut nodes, rule);
+        nodes[n].flags |= F_RULE | priv_bit(sec, F_RULE_PRIV);
+    }
+    for (y, &sec) in &wildcards {
+        let n = insert(&mut nodes, y);
+        nodes[n].flags |= F_WILD | priv_bit(sec, F_WILD_PRIV);
+    }
+    for (x, &sec) in &exceptions {
+        let n = insert(&mut nodes, x);
+        nodes[n].flags |= F_EXC | priv_bit(sec, F_EXC_PRIV);
+    }
 
-    if let Err(code) = write_block("src/rules", &rules)
+    // Flatten: node records, edge records, and a label blob.
+    let mut node_blob = Vec::with_capacity(nodes.len() * 8);
+    let mut edge_blob = Vec::new();
+    let mut labels = String::new();
+    let mut edge_index = 0u32;
+    for node in &nodes {
+        let edge_start = edge_index;
+        let edge_count = u16::try_from(node.children.len()).expect("too many edges");
+        node_blob.extend_from_slice(&edge_start.to_le_bytes());
+        node_blob.extend_from_slice(&edge_count.to_le_bytes());
+        node_blob.push(node.flags);
+        node_blob.push(0); // pad to 8 bytes
+        edge_index += u32::from(edge_count);
+    }
+    for node in &nodes {
+        for (label, &child) in &node.children {
+            let label_off = u32::try_from(labels.len()).expect("labels exceed 4 GiB");
+            let label_len = u8::try_from(label.len()).expect("label longer than 255 bytes");
+            labels.push_str(label);
+            edge_blob.extend_from_slice(&label_off.to_le_bytes());
+            edge_blob.push(label_len);
+            edge_blob.extend_from_slice(&(child as u32).to_le_bytes());
+        }
+    }
+
+    let result = write_block("src/rules", &rules)
         .and_then(|_| write_block("src/wildcards", &wildcards))
         .and_then(|_| write_block("src/exceptions", &exceptions))
         .and_then(|_| write_file("src/psl_version.txt", version.as_bytes()))
-        .and_then(|_| {
-            let gen = format!(
-                "// AUTO-GENERATED by `cargo run -p xtask`. DO NOT EDIT.\n\
-                 /// Maximum number of labels in any rule; bounds lookups.\n\
-                 pub(crate) const MAX_RULE_LABELS: usize = {max_rule_labels};\n"
-            );
-            write_file("src/generated.rs", gen.as_bytes())
-        })
-    {
+        .and_then(|_| write_file("src/trie_nodes.bin", &node_blob))
+        .and_then(|_| write_file("src/trie_edges.bin", &edge_blob))
+        .and_then(|_| write_file("src/trie_labels.txt", labels.as_bytes()));
+    if let Err(code) = result {
         return code;
     }
 
     eprintln!(
         "wrote {} rules, {} wildcards, {} exceptions (PSL {version}); \
-         MAX_RULE_LABELS={max_rule_labels}; {skipped} skipped",
+         trie: {} nodes, {} edges, {} label bytes; {skipped} skipped",
         rules.len(),
         wildcards.len(),
         exceptions.len(),
+        nodes.len(),
+        edge_index,
+        labels.len(),
     );
     ExitCode::SUCCESS
 }
 
-/// Write one sorted block as `<stem>.txt` (`rule\tS` lines) plus `<stem>.idx`
-/// (a `u32` LE line-start offset per line).
+/// Insert a rule's labels into the trie in reversed order (so `co.uk` becomes
+/// root → `uk` → `co`), returning the index of the terminal node.
+fn insert(nodes: &mut Vec<Node>, rule: &str) -> usize {
+    let mut node = 0usize;
+    for label in rule.split('.').rev() {
+        node = match nodes[node].children.get(label) {
+            Some(&c) => c,
+            None => {
+                let c = nodes.len();
+                nodes.push(Node::default());
+                nodes[node].children.insert(label.to_string(), c);
+                c
+            }
+        };
+    }
+    node
+}
+
+/// Write one sorted block as `<stem>.txt` (`rule\tS` lines) for human
+/// inspection and the benchmarks. Not shipped in the published crate.
 fn write_block(stem: &str, entries: &BTreeMap<String, char>) -> Result<(), ExitCode> {
     let mut text = String::new();
-    let mut idx = Vec::with_capacity(entries.len() * 4);
     for (rule, section) in entries {
         if !text.is_empty() {
             text.push('\n');
         }
-        let off = u32::try_from(text.len()).expect("block exceeds 4 GiB");
-        idx.extend_from_slice(&off.to_le_bytes());
         text.push_str(rule);
         text.push('\t');
         text.push(*section);
     }
-    write_file(&format!("{stem}.txt"), text.as_bytes())?;
-    write_file(&format!("{stem}.idx"), &idx)
+    write_file(&format!("{stem}.txt"), text.as_bytes())
 }
 
 fn write_file(path: &str, bytes: &[u8]) -> Result<(), ExitCode> {

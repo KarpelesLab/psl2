@@ -57,10 +57,12 @@ Unicode input live behind the (default) `alloc` / `idna` features.
 The existing `psl` and `publicsuffix` crates work, but have rough edges. `psl2`
 is designed around a few principles:
 
-- **Fast builds, no `build.rs`.** The list is normalized to ASCII **at publish
-  time** and embedded as plain, sorted data via `include_str!`, queried with a
-  no-alloc binary search. There is no procedural-macro codegen and no per-build
-  list processing, so adding `psl2` costs almost nothing in compile time.
+- **Fast builds, fast lookups.** The list is normalized to ASCII **at publish
+  time** and embedded as a flattened **reversed-label trie** via
+  `include_bytes!`, walked from the TLD inward with no allocation. There is no
+  `build.rs`, no procedural-macro codegen, and no per-build list processing, so
+  adding `psl2` costs almost nothing in compile time. A typical lookup is a few
+  tens of nanoseconds and does not slow down for deep hostnames.
 - **`no_std` + `no_alloc` core**, usable on embedded targets.
 - **Built-in IDNA.** You pass a `&str` hostname — Unicode or not — and `psl2`
   normalizes it for you. No need to punycode-encode input yourself.
