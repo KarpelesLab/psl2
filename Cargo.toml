@@ -55,7 +55,7 @@ name = "vs_native"
 harness = false
 
 [features]
-default = ["std", "idna"]
+default = ["std", "idna", "fast-lookup"]
 # `std` currently only implies `alloc` (and links idna's std paths); the crate
 # itself is always `#![no_std]`.
 std = ["alloc", "idna?/std"]
@@ -64,6 +64,10 @@ alloc = ["idna?/alloc"]
 # Unicode/IDN input via the `idna` crate (implies `alloc`). Without it, input
 # must be ASCII/punycode.
 idna = ["dep:idna", "alloc"]
+# Embed a per-edge prefix index (~42 KB of rodata) that makes lookups ~2x
+# faster. On by default. Turn it off (e.g. `default-features = false`) when
+# binary size matters more than lookup speed, such as on embedded targets.
+fast-lookup = []
 
 [package.metadata.docs.rs]
 all-features = true

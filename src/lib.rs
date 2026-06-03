@@ -158,9 +158,18 @@ struct Node {
     flags: u8,
 }
 
-/// A trie edge, decoded from the embedded blob at compile time. 8 bytes.
+/// A trie edge, decoded from the embedded blob at compile time. 8 bytes, or 12
+/// with the `fast-lookup` feature.
+///
+/// With `fast-lookup`, `prefix` is the label's first ≤4 bytes packed big-endian
+/// (zero-padded on the low bytes), an order-preserving key derived from the
+/// label at decode time. `find_child` compares it first, so the binary search
+/// only fetches the full label from `LABELS` when two prefixes tie — cutting
+/// cache misses on the hot (root) descent at the cost of 4 bytes/edge.
 #[derive(Clone, Copy)]
 struct Edge {
+    #[cfg(feature = "fast-lookup")]
+    prefix: u32,
     label_off: u32,
     label_len: u8,
     child: u16,
@@ -210,6 +219,8 @@ const fn decode_nodes() -> [Node; N_NODES] {
 /// time only.
 const fn decode_edges() -> [Edge; N_EDGES] {
     let mut out = [Edge {
+        #[cfg(feature = "fast-lookup")]
+        prefix: 0,
         label_off: 0,
         label_len: 0,
         child: 0,
@@ -237,6 +248,8 @@ const fn decode_edges() -> [Edge; N_EDGES] {
         let delta = (val >> 1) as i64 ^ -((val & 1) as i64);
         child += delta;
         out[j] = Edge {
+            #[cfg(feature = "fast-lookup")]
+            prefix: prefix_key_at(label_off as usize, label_len as usize),
             label_off,
             label_len,
             child: child as u16,
@@ -245,6 +258,21 @@ const fn decode_edges() -> [Edge; N_EDGES] {
         j += 1;
     }
     out
+}
+
+/// The order-preserving prefix key for the label at `LABELS[off..off + len]`:
+/// its first ≤4 bytes packed big-endian, zero-padded on the low bytes (so a
+/// shorter label sorts before a longer one sharing its prefix). Compile time.
+#[cfg(feature = "fast-lookup")]
+const fn prefix_key_at(off: usize, len: usize) -> u32 {
+    let n = if len > 4 { 4 } else { len };
+    let mut key: u32 = 0;
+    let mut k = 0;
+    while k < n {
+        key = (key << 8) | LABELS[off + k] as u32;
+        k += 1;
+    }
+    key << ((4 - n) * 8)
 }
 
 static NODES: [Node; N_NODES] = decode_nodes();
@@ -264,10 +292,52 @@ fn edge_label(e: &Edge) -> &'static [u8] {
     &LABELS[off..off + e.label_len as usize]
 }
 
+/// The order-preserving prefix key for a query `label` (same encoding as
+/// [`prefix_key_at`]): first ≤4 bytes, big-endian, zero-padded low.
+#[cfg(feature = "fast-lookup")]
+#[inline]
+fn prefix_key(label: &[u8]) -> u32 {
+    let n = if label.len() > 4 { 4 } else { label.len() };
+    let mut key: u32 = 0;
+    let mut k = 0;
+    while k < n {
+        key = (key << 8) | label[k] as u32;
+        k += 1;
+    }
+    key << ((4 - n) as u32 * 8)
+}
+
 /// The child reached from edge range `[start, start + count)` by `label`.
 ///
-/// Edges are sorted by label, so this binary-searches. Only the label is
-/// touched per probe; the child index is read once, on a match.
+/// Edges are sorted by label, so this binary-searches. Each probe first
+/// compares the inline `prefix` key (an integer, no memory fetch); only on a
+/// prefix tie does it fetch and compare the full label from `LABELS`. The
+/// child index is read once, on a match.
+#[cfg(feature = "fast-lookup")]
+#[inline]
+fn find_child(start: usize, count: usize, label: &[u8]) -> Option<usize> {
+    let key = prefix_key(label);
+    let (mut lo, mut hi) = (start, start + count);
+    while lo < hi {
+        let mid = lo + (hi - lo) / 2;
+        let e = &EDGES[mid];
+        let ord = match key.cmp(&e.prefix) {
+            Ordering::Equal => label.cmp(edge_label(e)),
+            other => other,
+        };
+        match ord {
+            Ordering::Equal => return Some(e.child as usize),
+            Ordering::Less => hi = mid,
+            Ordering::Greater => lo = mid + 1,
+        }
+    }
+    None
+}
+
+/// Compact variant (no `fast-lookup`): binary-search comparing the full label
+/// fetched from `LABELS` on every probe. Smaller (no per-edge prefix) but does
+/// a `LABELS` fetch each step.
+#[cfg(not(feature = "fast-lookup"))]
 #[inline]
 fn find_child(start: usize, count: usize, label: &[u8]) -> Option<usize> {
     let (mut lo, mut hi) = (start, start + count);

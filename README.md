@@ -79,15 +79,17 @@ is designed around a few principles:
   costs almost nothing in compile time — a few hundred lines of code plus an
   opaque data blob, versus the ~100k lines of generated `match` code the
   [`psl`] crate makes every consumer compile.
-- **Lookups in the ~45–95 ns range**, allocation-free and stable across
-  hostname depth. The embedded blobs are decoded into native node/edge arrays
-  **at compile time**, so a lookup reads native fields with no byte assembly or
-  endian conversion — performance is identical on little- and big-endian
-  targets. This is plenty for typical cookie/URL work (~15M lookups/s per
-  core), but note `psl2` does *not* aim to beat `psl` on raw latency: `psl`
-  compiles the list straight to branch code and is still a few times faster per
-  lookup. `psl2` trades that for far cheaper compiles, built-in IDNA, and a
-  clean API. (See `compare-psl/` for the head-to-head benchmark.)
+- **Lookups in the ~20–50 ns range** (with the default `fast-lookup` feature),
+  allocation-free and stable across hostname depth. The embedded blobs are
+  decoded into native node/edge arrays **at compile time**, so a lookup reads
+  native fields with no byte assembly or endian conversion — performance is
+  identical on little- and big-endian targets. `fast-lookup` adds a small
+  per-edge prefix index (~42 KB of rodata) that roughly halves lookup time;
+  disable it (`default-features = false`) to trade that speed back for the
+  memory on size-constrained targets. `psl2` does *not* aim to beat `psl` on
+  raw latency (`psl` compiles the list straight to branch code), trading some
+  speed for far cheaper compiles, built-in IDNA, and a clean API. (See
+  `compare-psl/` for the head-to-head benchmark.)
 - **`no_std` + `no_alloc` core**, usable on embedded targets.
 - **Built-in IDNA.** You pass a `&str` hostname — Unicode or not — and `psl2`
   normalizes it for you. No need to punycode-encode input yourself.
@@ -131,9 +133,13 @@ already lowercase ASCII/punycode.
 - `idna` *(default)* — accept Unicode/IDN input via the [`idna`] crate (implies
   `alloc`). Without it, `alloc` input must be ASCII/punycode (lowercased for
   you); non-ASCII returns `None`.
+- `fast-lookup` *(default)* — embed a per-edge prefix index (~42 KB of rodata)
+  that makes lookups ~2× faster. Disable it when binary size matters more than
+  lookup speed; results are identical either way.
 
 With **no features**, only the allocation-free core (`lookup`, `Domain`,
-`Type`, `psl_version`) is compiled.
+`Type`, `psl_version`) is compiled — in its compact, smaller-but-slower form
+(add `fast-lookup` back if you want the speed without `alloc`/`idna`).
 
 ## Migrating from the `psl` crate
 
