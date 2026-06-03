@@ -300,12 +300,12 @@ pub fn analyze(domain: &str) -> Option<Info> {
         let rule_labels = n - i;
 
         if let Some(&ty) = db.exceptions.get(cand) {
-            if exception.map_or(true, |(c, _)| rule_labels > c) {
+            if exception.is_none_or(|(c, _)| rule_labels > c) {
                 exception = Some((rule_labels, ty));
             }
         }
         if let Some(&ty) = db.rules.get(cand) {
-            if best.map_or(true, |(c, _)| rule_labels > c) {
+            if best.is_none_or(|(c, _)| rule_labels > c) {
                 best = Some((rule_labels, ty));
             }
         }
@@ -313,7 +313,7 @@ pub fn analyze(domain: &str) -> Option<Info> {
         if i + 1 < n {
             let y = &ascii[offs[i + 1]..];
             if let Some(&ty) = db.wildcards.get(y) {
-                if best.map_or(true, |(c, _)| rule_labels > c) {
+                if best.is_none_or(|(c, _)| rule_labels > c) {
                     best = Some((rule_labels, ty));
                 }
             }
