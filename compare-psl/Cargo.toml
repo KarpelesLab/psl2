@@ -17,9 +17,10 @@ publish = false
 criterion = { version = "0.8", default-features = false, features = [
     "cargo_bench_support",
 ] }
-# The crate under comparison. No features needed: we compare the allocation-free
-# core (`lookup` / `compat`), which is the apples-to-apples match for `psl`.
-psl2 = { path = "..", default-features = false }
+# The crate under comparison. We compare the allocation-free core
+# (`lookup` / `compat`) — the apples-to-apples match for `psl` — with the
+# default `fast-lookup` index on, since that is what `cargo add psl2` gives you.
+psl2 = { path = "..", default-features = false, features = ["fast-lookup"] }
 # The original crate. Byte-oriented, no_std/no_alloc, case-sensitive.
 psl = "2"
 

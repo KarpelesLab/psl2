@@ -110,13 +110,12 @@ pub mod compat;
 /// * `NODES_RAW` — 3 bytes/node: `edge_count: u16` (little-endian) + `flags:
 ///   u8`. `edge_start` is *not* stored; it is the running sum of `edge_count`,
 ///   reconstructed at decode time. The node count is `len / 3`.
-/// * `EDGES_RAW` — one variable-length record per edge: `label_len: u8`
-///   followed by a zig-zag LEB128 varint of `child − previous_child`.
-///   `label_off` is *not* stored; it is the running sum of `label_len`. The
-///   edge count is `Σ edge_count`. A node's edges are contiguous and sorted by
-///   label.
-/// * `LABELS` — every edge label concatenated (ASCII), indexed by the
-///   reconstructed `(label_off, label_len)`.
+/// * `EDGES_RAW` — one variable-length record per edge: `label_off: u16`
+///   (little-endian, into `LABELS`) followed by a zig-zag LEB128 varint of
+///   `child − previous_child`. The edge count is `Σ edge_count`. A node's edges
+///   are contiguous and sorted by label.
+/// * `LABELS` — a **deduplicated** label pool: each distinct label appears once
+///   as `[len: u8][bytes]` (ASCII), referenced by `label_off`.
 ///
 /// All of this is decoded into native [`Node`] / [`Edge`] arrays **at compile
 /// time** (see [`decode_nodes`] / [`decode_edges`]): the prefix sums and varint
@@ -125,7 +124,7 @@ pub mod compat;
 /// little- and big-endian targets.
 const NODES_RAW: &[u8] = include_bytes!("trie_nodes.bin");
 const EDGES_RAW: &[u8] = include_bytes!("trie_edges.bin");
-const LABELS: &[u8] = include_bytes!("trie_labels.txt");
+const LABELS: &[u8] = include_bytes!("trie_labels.bin");
 
 const N_NODES: usize = NODES_RAW.len() / 3;
 const N_EDGES: usize = count_edges();
@@ -140,6 +139,10 @@ const _: () = assert!(
 const _: () = assert!(
     N_EDGES <= u16::MAX as usize + 1,
     "edge count exceeds u16; widen Node::edge_start"
+);
+const _: () = assert!(
+    LABELS.len() <= u16::MAX as usize + 1,
+    "label pool exceeds u16 offsets; widen Edge::label_off"
 );
 
 // Node flag bits (kept in sync with `xtask`).
@@ -158,8 +161,10 @@ struct Node {
     flags: u8,
 }
 
-/// A trie edge, decoded from the embedded blob at compile time. 8 bytes, or 12
+/// A trie edge, decoded from the embedded blob at compile time. 4 bytes, or 8
 /// with the `fast-lookup` feature.
+///
+/// `label_off` points at the label's `[len][bytes]` record in `LABELS`.
 ///
 /// With `fast-lookup`, `prefix` is the label's first ≤4 bytes packed big-endian
 /// (zero-padded on the low bytes), an order-preserving key derived from the
@@ -170,8 +175,7 @@ struct Node {
 struct Edge {
     #[cfg(feature = "fast-lookup")]
     prefix: u32,
-    label_off: u32,
-    label_len: u8,
+    label_off: u16,
     child: u16,
 }
 
@@ -214,24 +218,21 @@ const fn decode_nodes() -> [Node; N_NODES] {
     out
 }
 
-/// Decode the delta-coded edge blob, reconstructing `label_off` (running sum of
-/// `label_len`) and `child` (running sum of zig-zag varint deltas). Compile
-/// time only.
+/// Decode the edge blob: each record is `label_off: u16` (into `LABELS`) plus a
+/// zig-zag varint of `child`'s delta from the previous edge. Compile time only.
 const fn decode_edges() -> [Edge; N_EDGES] {
     let mut out = [Edge {
         #[cfg(feature = "fast-lookup")]
         prefix: 0,
         label_off: 0,
-        label_len: 0,
         child: 0,
     }; N_EDGES];
     let mut j = 0;
     let mut cursor = 0usize;
-    let mut label_off: u32 = 0;
     let mut child: i64 = 0;
     while j < N_EDGES {
-        let label_len = EDGES_RAW[cursor];
-        cursor += 1;
+        let label_off = rd_u16(EDGES_RAW, cursor);
+        cursor += 2;
         // Unsigned LEB128.
         let mut val: u64 = 0;
         let mut shift = 0u32;
@@ -249,27 +250,27 @@ const fn decode_edges() -> [Edge; N_EDGES] {
         child += delta;
         out[j] = Edge {
             #[cfg(feature = "fast-lookup")]
-            prefix: prefix_key_at(label_off as usize, label_len as usize),
+            prefix: prefix_key_at(label_off as usize),
             label_off,
-            label_len,
             child: child as u16,
         };
-        label_off += label_len as u32;
         j += 1;
     }
     out
 }
 
-/// The order-preserving prefix key for the label at `LABELS[off..off + len]`:
-/// its first ≤4 bytes packed big-endian, zero-padded on the low bytes (so a
-/// shorter label sorts before a longer one sharing its prefix). Compile time.
+/// The order-preserving prefix key for the label whose `[len][bytes]` record
+/// starts at `LABELS[off]`: its first ≤4 bytes packed big-endian, zero-padded
+/// on the low bytes (so a shorter label sorts before a longer one sharing its
+/// prefix). Compile time only.
 #[cfg(feature = "fast-lookup")]
-const fn prefix_key_at(off: usize, len: usize) -> u32 {
+const fn prefix_key_at(off: usize) -> u32 {
+    let len = LABELS[off] as usize;
     let n = if len > 4 { 4 } else { len };
     let mut key: u32 = 0;
     let mut k = 0;
     while k < n {
-        key = (key << 8) | LABELS[off + k] as u32;
+        key = (key << 8) | LABELS[off + 1 + k] as u32;
         k += 1;
     }
     key << ((4 - n) * 8)
@@ -285,11 +286,12 @@ fn node_rec(i: usize) -> (usize, usize, u8) {
     (n.edge_start as usize, n.edge_count as usize, n.flags)
 }
 
-/// An edge's label bytes (ASCII).
+/// An edge's label bytes (ASCII), read from its `[len][bytes]` pool record.
 #[inline]
 fn edge_label(e: &Edge) -> &'static [u8] {
     let off = e.label_off as usize;
-    &LABELS[off..off + e.label_len as usize]
+    let len = LABELS[off] as usize;
+    &LABELS[off + 1..off + 1 + len]
 }
 
 /// The order-preserving prefix key for a query `label` (same encoding as

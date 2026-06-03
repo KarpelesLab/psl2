@@ -2,14 +2,16 @@
 //!
 //! Reads the vendored `list/public_suffix_list.dat`, normalizes every rule to
 //! ASCII/punycode, and emits a flattened **reversed-label trie** that the
-//! library walks from the TLD inward with no allocation:
+//! library walks from the TLD inward with no allocation. The format stores only
+//! non-derivable data; the crate reconstructs the rest at compile time:
 //!
-//! * `src/trie_nodes.bin` — 8 bytes/node: `edge_start: u32 LE`,
-//!   `edge_count: u16 LE`, `flags: u8`, pad. Node 0 is the root.
-//! * `src/trie_edges.bin` — 9 bytes/edge: `label_off: u32 LE`, `label_len: u8`,
-//!   `child: u32 LE`. A node's edges are contiguous and sorted by label.
-//! * `src/trie_labels.txt` — every edge label concatenated; an edge's label is
-//!   `labels[off .. off + len]`.
+//! * `src/trie_nodes.bin` — 3 bytes/node: `edge_count: u16 LE`, `flags: u8`.
+//!   `edge_start` is the prefix sum of `edge_count`. Node 0 is the root.
+//! * `src/trie_edges.bin` — per edge: `label_off: u16 LE` (into the pool) + a
+//!   zig-zag LEB128 varint of `child` minus the previous edge's `child`. A
+//!   node's edges are contiguous and sorted by label.
+//! * `src/trie_labels.bin` — a **deduplicated** label pool: each distinct label
+//!   appears once as `[len: u8][bytes]`, referenced by `label_off`.
 //!
 //! `flags` bits: `RULE=1, RULE_PRIV=2, WILD=4, WILD_PRIV=8, EXC=16, EXC_PRIV=32`
 //! (a `_PRIV` bit means the rule came from the PRIVATE section).
@@ -137,12 +139,14 @@ fn main() -> ExitCode {
     //
     // * nodes: 3 bytes each — `edge_count: u16` (LE) + `flags`. `edge_start` is
     //   omitted (it is the prefix sum of `edge_count`).
-    // * edges: `label_len: u8` + a zig-zag LEB128 varint of `child` minus the
-    //   previous edge's `child`. `label_off` is omitted (prefix sum of
-    //   `label_len`); labels are concatenated in edge order.
+    // * edges: `label_off: u16` (LE) into the deduplicated label pool + a
+    //   zig-zag LEB128 varint of `child` minus the previous edge's `child`.
+    // * labels: a deduplicated pool of `[len: u8][bytes]` records — each
+    //   distinct label stored once.
     let mut node_blob = Vec::with_capacity(nodes.len() * 3);
     let mut edge_blob = Vec::new();
-    let mut labels = String::new();
+    let mut labels: Vec<u8> = Vec::new();
+    let mut label_off: BTreeMap<&str, u16> = BTreeMap::new();
     for node in &nodes {
         let edge_count = u16::try_from(node.children.len()).expect("too many edges");
         node_blob.extend_from_slice(&edge_count.to_le_bytes());
@@ -151,9 +155,14 @@ fn main() -> ExitCode {
     let mut prev_child: i64 = 0;
     for node in &nodes {
         for (label, &child) in &node.children {
-            let label_len = u8::try_from(label.len()).expect("label longer than 255 bytes");
-            labels.push_str(label);
-            edge_blob.push(label_len);
+            let off = *label_off.entry(label.as_str()).or_insert_with(|| {
+                let o = u16::try_from(labels.len()).expect("label pool exceeds 64 KiB");
+                let len = u8::try_from(label.len()).expect("label longer than 255 bytes");
+                labels.push(len);
+                labels.extend_from_slice(label.as_bytes());
+                o
+            });
+            edge_blob.extend_from_slice(&off.to_le_bytes());
             write_varint(&mut edge_blob, zigzag(child as i64 - prev_child));
             prev_child = child as i64;
         }
@@ -165,7 +174,7 @@ fn main() -> ExitCode {
         .and_then(|_| write_file("src/psl_version.txt", version.as_bytes()))
         .and_then(|_| write_file("src/trie_nodes.bin", &node_blob))
         .and_then(|_| write_file("src/trie_edges.bin", &edge_blob))
-        .and_then(|_| write_file("src/trie_labels.txt", labels.as_bytes()));
+        .and_then(|_| write_file("src/trie_labels.bin", &labels));
     if let Err(code) = result {
         return code;
     }

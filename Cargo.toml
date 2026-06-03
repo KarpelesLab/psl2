@@ -21,7 +21,7 @@ include = [
     "src/**/*.rs",
     "src/trie_nodes.bin",
     "src/trie_edges.bin",
-    "src/trie_labels.txt",
+    "src/trie_labels.bin",
     "src/psl_version.txt",
     "README.md",
     "LICENSE-MIT",

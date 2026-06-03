@@ -117,6 +117,6 @@ jobs:
       - name: Fail if the embedded data would change
         run: |
           git diff --exit-code \
-            src/trie_nodes.bin src/trie_edges.bin src/trie_labels.txt \
+            src/trie_nodes.bin src/trie_edges.bin src/trie_labels.bin \
             src/rules.txt src/wildcards.txt src/exceptions.txt \
             src/psl_version.txt
