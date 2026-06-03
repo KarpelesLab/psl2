@@ -104,21 +104,31 @@ pub mod compat;
 /// stored right-to-left (`co.uk` → root → `uk` → `co`), so a single descent
 /// from the TLD replaces a binary search per candidate suffix.
 ///
-/// On disk the blobs are little-endian: 8 bytes/node (`edge_start: u32`,
-/// `edge_count: u16`, `flags: u8`, pad) and 9 bytes/edge (`label_off: u32`,
-/// `label_len: u8`, `child: u32`); a node's edges are contiguous and sorted by
-/// label. `LABELS` is every edge label concatenated (ASCII).
+/// The on-disk format stores only what cannot be derived, to keep the packaged
+/// crate small:
 ///
-/// They are decoded into native [`Node`] / [`Edge`] arrays **at compile time**
-/// (see [`decode_nodes`] / [`decode_edges`]), so lookups read native fields
-/// with no byte assembly or endian conversion — identical cost on little- and
-/// big-endian targets.
+/// * `NODES_RAW` — 3 bytes/node: `edge_count: u16` (little-endian) + `flags:
+///   u8`. `edge_start` is *not* stored; it is the running sum of `edge_count`,
+///   reconstructed at decode time. The node count is `len / 3`.
+/// * `EDGES_RAW` — one variable-length record per edge: `label_len: u8`
+///   followed by a zig-zag LEB128 varint of `child − previous_child`.
+///   `label_off` is *not* stored; it is the running sum of `label_len`. The
+///   edge count is `Σ edge_count`. A node's edges are contiguous and sorted by
+///   label.
+/// * `LABELS` — every edge label concatenated (ASCII), indexed by the
+///   reconstructed `(label_off, label_len)`.
+///
+/// All of this is decoded into native [`Node`] / [`Edge`] arrays **at compile
+/// time** (see [`decode_nodes`] / [`decode_edges`]): the prefix sums and varint
+/// deltas are resolved by `const fn`, so lookups read native fields with no
+/// byte assembly, varint decoding, or endian conversion — identical cost on
+/// little- and big-endian targets.
 const NODES_RAW: &[u8] = include_bytes!("trie_nodes.bin");
 const EDGES_RAW: &[u8] = include_bytes!("trie_edges.bin");
 const LABELS: &[u8] = include_bytes!("trie_labels.txt");
 
-const N_NODES: usize = NODES_RAW.len() / 8;
-const N_EDGES: usize = EDGES_RAW.len() / 9;
+const N_NODES: usize = NODES_RAW.len() / 3;
+const N_EDGES: usize = count_edges();
 
 // Node flag bits (kept in sync with `xtask`).
 const F_RULE: u8 = 1;
@@ -144,15 +154,23 @@ struct Edge {
     child: u32,
 }
 
-const fn rd_u32(b: &[u8], o: usize) -> u32 {
-    (b[o] as u32) | ((b[o + 1] as u32) << 8) | ((b[o + 2] as u32) << 16) | ((b[o + 3] as u32) << 24)
-}
-
 const fn rd_u16(b: &[u8], o: usize) -> u16 {
     (b[o] as u16) | ((b[o + 1] as u16) << 8)
 }
 
-/// Decode the little-endian node blob into native records (compile time only).
+/// Total edge count = sum of every node's `edge_count` (compile time only).
+const fn count_edges() -> usize {
+    let mut total = 0usize;
+    let mut i = 0;
+    while i < N_NODES {
+        total += rd_u16(NODES_RAW, i * 3) as usize;
+        i += 1;
+    }
+    total
+}
+
+/// Decode the node blob, reconstructing `edge_start` as the running sum of
+/// `edge_count` (compile time only).
 const fn decode_nodes() -> [Node; N_NODES] {
     let mut out = [Node {
         edge_start: 0,
@@ -160,19 +178,24 @@ const fn decode_nodes() -> [Node; N_NODES] {
         flags: 0,
     }; N_NODES];
     let mut i = 0;
+    let mut edge_start: u32 = 0;
     while i < N_NODES {
-        let o = i * 8;
+        let o = i * 3;
+        let edge_count = rd_u16(NODES_RAW, o);
         out[i] = Node {
-            edge_start: rd_u32(NODES_RAW, o),
-            edge_count: rd_u16(NODES_RAW, o + 4),
-            flags: NODES_RAW[o + 6],
+            edge_start,
+            edge_count,
+            flags: NODES_RAW[o + 2],
         };
+        edge_start += edge_count as u32;
         i += 1;
     }
     out
 }
 
-/// Decode the little-endian edge blob into native records (compile time only).
+/// Decode the delta-coded edge blob, reconstructing `label_off` (running sum of
+/// `label_len`) and `child` (running sum of zig-zag varint deltas). Compile
+/// time only.
 const fn decode_edges() -> [Edge; N_EDGES] {
     let mut out = [Edge {
         label_off: 0,
@@ -180,13 +203,33 @@ const fn decode_edges() -> [Edge; N_EDGES] {
         child: 0,
     }; N_EDGES];
     let mut j = 0;
+    let mut cursor = 0usize;
+    let mut label_off: u32 = 0;
+    let mut child: i64 = 0;
     while j < N_EDGES {
-        let o = j * 9;
+        let label_len = EDGES_RAW[cursor];
+        cursor += 1;
+        // Unsigned LEB128.
+        let mut val: u64 = 0;
+        let mut shift = 0u32;
+        loop {
+            let b = EDGES_RAW[cursor];
+            cursor += 1;
+            val |= ((b & 0x7f) as u64) << shift;
+            if b & 0x80 == 0 {
+                break;
+            }
+            shift += 7;
+        }
+        // Zig-zag decode, then accumulate the delta.
+        let delta = (val >> 1) as i64 ^ -((val & 1) as i64);
+        child += delta;
         out[j] = Edge {
-            label_off: rd_u32(EDGES_RAW, o),
-            label_len: EDGES_RAW[o + 4],
-            child: rd_u32(EDGES_RAW, o + 5),
+            label_off,
+            label_len,
+            child: child as u32,
         };
+        label_off += label_len as u32;
         j += 1;
     }
     out

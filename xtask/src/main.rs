@@ -132,28 +132,30 @@ fn main() -> ExitCode {
         nodes[n].flags |= F_EXC | priv_bit(sec, F_EXC_PRIV);
     }
 
-    // Flatten: node records, edge records, and a label blob.
-    let mut node_blob = Vec::with_capacity(nodes.len() * 8);
+    // Flatten into a compact form that stores only non-derivable data; the
+    // crate reconstructs the rest at compile time (see `src/lib.rs`).
+    //
+    // * nodes: 3 bytes each — `edge_count: u16` (LE) + `flags`. `edge_start` is
+    //   omitted (it is the prefix sum of `edge_count`).
+    // * edges: `label_len: u8` + a zig-zag LEB128 varint of `child` minus the
+    //   previous edge's `child`. `label_off` is omitted (prefix sum of
+    //   `label_len`); labels are concatenated in edge order.
+    let mut node_blob = Vec::with_capacity(nodes.len() * 3);
     let mut edge_blob = Vec::new();
     let mut labels = String::new();
-    let mut edge_index = 0u32;
     for node in &nodes {
-        let edge_start = edge_index;
         let edge_count = u16::try_from(node.children.len()).expect("too many edges");
-        node_blob.extend_from_slice(&edge_start.to_le_bytes());
         node_blob.extend_from_slice(&edge_count.to_le_bytes());
         node_blob.push(node.flags);
-        node_blob.push(0); // pad to 8 bytes
-        edge_index += u32::from(edge_count);
     }
+    let mut prev_child: i64 = 0;
     for node in &nodes {
         for (label, &child) in &node.children {
-            let label_off = u32::try_from(labels.len()).expect("labels exceed 4 GiB");
             let label_len = u8::try_from(label.len()).expect("label longer than 255 bytes");
             labels.push_str(label);
-            edge_blob.extend_from_slice(&label_off.to_le_bytes());
             edge_blob.push(label_len);
-            edge_blob.extend_from_slice(&(child as u32).to_le_bytes());
+            write_varint(&mut edge_blob, zigzag(child as i64 - prev_child));
+            prev_child = child as i64;
         }
     }
 
@@ -175,10 +177,29 @@ fn main() -> ExitCode {
         wildcards.len(),
         exceptions.len(),
         nodes.len(),
-        edge_index,
+        nodes.iter().map(|n| n.children.len()).sum::<usize>(),
         labels.len(),
     );
     ExitCode::SUCCESS
+}
+
+/// Map a signed value to an unsigned one with small magnitudes near zero
+/// (zig-zag), so positive and negative deltas both encode to short varints.
+fn zigzag(v: i64) -> u64 {
+    ((v << 1) ^ (v >> 63)) as u64
+}
+
+/// Append `v` as an unsigned LEB128 varint.
+fn write_varint(out: &mut Vec<u8>, mut v: u64) {
+    loop {
+        let byte = (v & 0x7f) as u8;
+        v >>= 7;
+        if v == 0 {
+            out.push(byte);
+            break;
+        }
+        out.push(byte | 0x80);
+    }
 }
 
 /// Insert a rule's labels into the trie in reversed order (so `co.uk` becomes
