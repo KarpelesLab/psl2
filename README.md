@@ -110,6 +110,28 @@ already lowercase ASCII/punycode.
 With **no features**, only the allocation-free core (`lookup`, `Domain`,
 `Type`, `psl_version`) is compiled.
 
+## Migrating from the `psl` crate
+
+The `compat` module mirrors the [`psl`] crate's shape (operates on `&[u8]`,
+returns a `Domain` that *is* the registrable domain with a nested `Suffix`):
+
+```rust
+let d = psl2::compat::domain_str("www.example.co.uk").unwrap();
+assert_eq!(d.as_bytes(), b"example.co.uk");
+assert_eq!(d.suffix().as_bytes(), b"co.uk");
+assert!(d.suffix().is_known());
+```
+
+| `psl` | `psl2::compat` |
+| --- | --- |
+| `psl::domain_str(s)` | `psl2::compat::domain_str(s)` |
+| `psl::suffix_str(s)` | `psl2::compat::suffix_str(s)` |
+| `psl::domain(b)` / `psl::suffix(b)` | `psl2::compat::domain(b)` / `suffix(b)` |
+
+Like `psl`, this path is allocation-free, borrows from its input, and is
+case-sensitive (expects lowercased ASCII/punycode). For Unicode/auto-normalized
+input, use the main `analyze`/`registrable_domain` API.
+
 ## ICANN vs. PRIVATE
 
 The list has two sections: ICANN (real registry suffixes) and PRIVATE
