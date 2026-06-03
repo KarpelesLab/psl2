@@ -45,22 +45,50 @@ jobs:
       - name: Regenerate embedded data
         run: cargo run -p xtask
 
-      - name: Detect changes
+      - name: Detect list changes
         id: diff
         run: |
           # Decide solely on the embedded data: the upstream .dat header changes
-          # on every release (VERSION/COMMIT), but we only publish when the
-          # actual suffix rules in src/list.txt differ.
+          # on every release (VERSION/COMMIT), but we only bump when the actual
+          # suffix rules in src/list.txt differ.
           if git diff --quiet src/list.txt; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "No effective changes in the Public Suffix List; skipping publish."
+            echo "No effective changes in the Public Suffix List."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Public Suffix List rules changed."
           fi
 
-      - name: Verify the crate still builds and passes tests
-        if: steps.diff.outputs.changed == 'true'
+      - name: Check whether the current version is on crates.io
+        id: cratesio
+        run: |
+          name=$(grep -m1 '^name = ' Cargo.toml | sed -E 's/.*"(.*)".*/\1/')
+          ver=$(grep -m1 '^version = ' Cargo.toml | sed -E 's/.*"([0-9]+\.[0-9]+\.[0-9]+)".*/\1/')
+          if curl -fsSL -A "psl2-ci (github actions)" \
+               "https://crates.io/api/v1/crates/$name/$ver" >/dev/null 2>&1; then
+            echo "missing=false" >> "$GITHUB_OUTPUT"
+            echo "$name $ver is already published."
+          else
+            echo "missing=true" >> "$GITHUB_OUTPUT"
+            echo "$name $ver is NOT yet on crates.io (will publish current version)."
+          fi
+
+      # Publish when the rules changed (a new, bumped version) OR when the
+      # current version simply isn't on crates.io yet (first release, or a
+      # previous publish that failed after the version was committed).
+      - name: Decide
+        id: decide
+        run: |
+          if [ "${{ steps.diff.outputs.changed }}" = "true" ] \
+             || [ "${{ steps.cratesio.outputs.missing }}" = "true" ]; then
+            echo "act=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "act=false" >> "$GITHUB_OUTPUT"
+            echo "Nothing to do."
+          fi
+
+      - name: Verify the crate builds and passes tests
+        if: steps.decide.outputs.act == 'true'
         run: cargo test --all-features
 
       - name: Bump patch version
@@ -87,12 +115,18 @@ jobs:
           git commit -m "chore: update PSL to ${psl_version} (v${{ steps.bump.outputs.version }})"
           git tag "v${{ steps.bump.outputs.version }}"
 
+      # No bump (publishing the current version because it's missing): discard
+      # the re-fetched .dat so cargo sees a clean tree.
+      - name: Clean working tree
+        if: steps.diff.outputs.changed != 'true' && steps.decide.outputs.act == 'true'
+        run: git restore .
+
       # Plain `cargo publish` with CARGO_REGISTRY_TOKEN — deliberately NOT
       # cargo-release / release-plz, whose breakage repeatedly stalled the
       # upstream `psl` crate's auto-publish (addr-rs/psl#3, #4).
       - name: Publish to crates.io
         if: >-
-          steps.diff.outputs.changed == 'true' &&
+          steps.decide.outputs.act == 'true' &&
           (github.event_name == 'schedule' || inputs.publish)
         run: cargo publish
         env:
