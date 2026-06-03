@@ -1,0 +1,39 @@
+[package]
+name = "psl2"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.70"
+description = "A modern alternative to the psl crate: Mozilla's Public Suffix List with built-in IDNA, fast builds, and a clean API."
+repository = "https://github.com/KarpelesLab/psl2"
+homepage = "https://github.com/KarpelesLab/psl2"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+keywords = ["psl", "public-suffix", "domain", "tld", "cookie"]
+categories = ["web-programming", "parser-implementations"]
+# Allowlist: ship only the pre-generated data + sources. The raw .dat, the
+# xtask generator, and CI config are intentionally excluded from the package
+# so consumer builds stay tiny and fast.
+include = [
+    "src/**/*.rs",
+    "src/list.txt",
+    "README.md",
+    "LICENSE-MIT",
+    "LICENSE-APACHE",
+]
+
+[workspace]
+members = ["xtask"]
+
+[dependencies]
+# Used at runtime only to normalize the *query* (Unicode -> ASCII/punycode).
+# Optional so consumers who already pass ASCII can opt out for a leaner build.
+idna = { version = "1.1", optional = true }
+
+[features]
+default = ["idna"]
+# Enables Unicode/IDN input via the `idna` crate. With it disabled, the API
+# accepts only ASCII/punycode hostnames (which it lowercases and validates).
+idna = ["dep:idna"]
+
+[package.metadata.docs.rs]
+all-features = true

@@ -1,0 +1,103 @@
+name: Update PSL & publish
+
+# Pulls the latest Public Suffix List, regenerates the embedded data, and — if
+# anything changed — bumps the patch version, commits, and publishes to
+# crates.io. Requires a CARGO_REGISTRY_TOKEN secret (provided org-wide by the
+# KarpelesLab group).
+
+on:
+  schedule:
+    # Daily at 06:17 UTC (off the round hour on purpose).
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish to crates.io if the list changed"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-list
+  cancel-in-progress: false
+
+env:
+  CARGO_TERM_COLOR: always
+  LIST_URL: https://publicsuffix.org/list/public_suffix_list.dat
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      # Check out with a PAT so the bot's commit/tag push triggers downstream
+      # workflows (e.g. CI). The default GITHUB_TOKEN suppresses those.
+      - uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.RELEASE_PLZ_TOKEN }}
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Fetch latest Public Suffix List
+        run: curl -fsSL "$LIST_URL" -o list/public_suffix_list.dat
+
+      - name: Regenerate embedded data
+        run: cargo run -p xtask
+
+      - name: Detect changes
+        id: diff
+        run: |
+          # Decide solely on the embedded data: the upstream .dat header changes
+          # on every release (VERSION/COMMIT), but we only publish when the
+          # actual suffix rules in src/list.txt differ.
+          if git diff --quiet src/list.txt; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No effective changes in the Public Suffix List; skipping publish."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Public Suffix List rules changed."
+          fi
+
+      - name: Verify the crate still builds and passes tests
+        if: steps.diff.outputs.changed == 'true'
+        run: cargo test --all-features
+
+      - name: Bump patch version
+        if: steps.diff.outputs.changed == 'true'
+        id: bump
+        run: |
+          cur=$(grep -m1 '^version = ' Cargo.toml | sed -E 's/.*"([0-9]+\.[0-9]+\.[0-9]+)".*/\1/')
+          IFS=. read -r MA MI PA <<< "$cur"
+          new="$MA.$MI.$((PA + 1))"
+          sed -i -E "0,/^version = \"[0-9]+\.[0-9]+\.[0-9]+\"/s//version = \"$new\"/" Cargo.toml
+          echo "version=$new" >> "$GITHUB_OUTPUT"
+          echo "Bumped $cur -> $new"
+
+      # Commit locally first (cargo publish requires a clean tree) but DO NOT
+      # push yet — we only push after a successful publish so a failed publish
+      # leaves the remote untouched and the next run simply retries.
+      - name: Commit locally
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          psl_version=$(sed -n 's/^# PSL VERSION: //p' src/list.txt)
+          git add Cargo.toml src/list.txt list/public_suffix_list.dat
+          git commit -m "chore: update PSL to ${psl_version} (v${{ steps.bump.outputs.version }})"
+          git tag "v${{ steps.bump.outputs.version }}"
+
+      # Plain `cargo publish` with CARGO_REGISTRY_TOKEN — deliberately NOT
+      # cargo-release / release-plz, whose breakage repeatedly stalled the
+      # upstream `psl` crate's auto-publish (addr-rs/psl#3, #4).
+      - name: Publish to crates.io
+        if: >-
+          steps.diff.outputs.changed == 'true' &&
+          (github.event_name == 'schedule' || inputs.publish)
+        run: cargo publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+
+      - name: Push commit & tag
+        if: steps.diff.outputs.changed == 'true'
+        run: git push --follow-tags
