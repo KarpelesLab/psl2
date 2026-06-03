@@ -24,12 +24,26 @@ jobs:
         with:
           toolchain: ${{ matrix.rust }}
       - uses: Swatinem/rust-cache@v2
-      - name: Build (default features)
-        run: cargo build --verbose
-      - name: Build (no default features)
-        run: cargo build --no-default-features --verbose
       - name: Test (all features)
         run: cargo test --all-features --verbose
+      - name: Test (no default features — core no_alloc)
+        run: cargo test --no-default-features --verbose
+      - name: Test (alloc, no idna)
+        run: cargo test --no-default-features --features alloc --verbose
+
+  no-std:
+    name: no_std build / thumbv6m-none-eabi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: thumbv6m-none-eabi
+      - uses: Swatinem/rust-cache@v2
+      - name: Build core (no_std + no_alloc)
+        run: cargo build -p psl2 --no-default-features --target thumbv6m-none-eabi
+      - name: Build no_std + alloc + idna
+        run: cargo build -p psl2 --no-default-features --features idna --target thumbv6m-none-eabi
 
   lint:
     name: fmt + clippy
@@ -58,7 +72,7 @@ jobs:
         run: cargo doc --no-deps --all-features
 
   generated-up-to-date:
-    name: src/list.txt is up to date
+    name: generated data is up to date
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -66,5 +80,5 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Regenerate from the vendored list
         run: cargo run -p xtask
-      - name: Fail if src/list.txt would change
-        run: git diff --exit-code src/list.txt
+      - name: Fail if the embedded data would change
+        run: git diff --exit-code src/rules.txt src/wildcards.txt src/exceptions.txt src/psl_version.txt

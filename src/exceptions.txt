@@ -1,0 +1,8 @@
+city.kawasaki.jp	I
+city.kitakyushu.jp	I
+city.kobe.jp	I
+city.nagoya.jp	I
+city.sapporo.jp	I
+city.sendai.jp	I
+city.yokohama.jp	I
+www.ck	I

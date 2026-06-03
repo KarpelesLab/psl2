@@ -1,11 +1,11 @@
 [package]
 name = "psl2"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 # MSRV is driven by the `idna` dependency tree (icu/idna_adapter require 1.86).
-# Building with `default-features = false` (no IDNA) works on much older Rust.
+# The no_std/no_alloc core (default-features = false) works on much older Rust.
 rust-version = "1.86"
-description = "A modern alternative to the psl crate: Mozilla's Public Suffix List with built-in IDNA, fast builds, and a clean API."
+description = "A modern alternative to the psl crate: Mozilla's Public Suffix List with built-in IDNA, fast builds, no_std support, and a clean API."
 repository = "https://github.com/KarpelesLab/psl2"
 homepage = "https://github.com/KarpelesLab/psl2"
 license = "MIT OR Apache-2.0"
@@ -17,7 +17,10 @@ categories = ["web-programming", "parser-implementations"]
 # so consumer builds stay tiny and fast.
 include = [
     "src/**/*.rs",
-    "src/list.txt",
+    "src/rules.txt",
+    "src/wildcards.txt",
+    "src/exceptions.txt",
+    "src/psl_version.txt",
     "README.md",
     "LICENSE-MIT",
     "LICENSE-APACHE",
@@ -27,15 +30,22 @@ include = [
 members = ["xtask"]
 
 [dependencies]
-# Used at runtime only to normalize the *query* (Unicode -> ASCII/punycode).
-# Optional so consumers who already pass ASCII can opt out for a leaner build.
-idna = { version = "1.1", optional = true }
+# Used only to normalize the *query* (Unicode -> ASCII/punycode). Optional and
+# configured for no_std + alloc; consumers who pass ASCII can drop it entirely.
+idna = { version = "1.1", optional = true, default-features = false, features = [
+    "compiled_data",
+] }
 
 [features]
-default = ["idna"]
-# Enables Unicode/IDN input via the `idna` crate. With it disabled, the API
-# accepts only ASCII/punycode hostnames (which it lowercases and validates).
-idna = ["dep:idna"]
+default = ["std", "idna"]
+# `std` currently only implies `alloc` (and links idna's std paths); the crate
+# itself is always `#![no_std]`.
+std = ["alloc", "idna?/std"]
+# Enables the allocating convenience API (owned results, query normalization).
+alloc = ["idna?/alloc"]
+# Unicode/IDN input via the `idna` crate (implies `alloc`). Without it, input
+# must be ASCII/punycode.
+idna = ["dep:idna", "alloc"]
 
 [package.metadata.docs.rs]
 all-features = true

@@ -36,15 +36,32 @@ assert_eq!(
 );
 ```
 
+## `no_std` / `no_alloc`
+
+The crate is `#![no_std]`, and its core lookup **allocates nothing**. Pass an
+already-lowercased ASCII/punycode hostname to `lookup` and read back borrowed
+slices — this works on bare-metal targets with no allocator:
+
+```rust
+let d = psl2::lookup("www.example.co.uk").unwrap();
+assert_eq!(d.suffix(), "co.uk");
+assert_eq!(d.registrable_domain(), Some("example.co.uk"));
+assert_eq!(d.subdomain(), Some("www"));
+```
+
+The ergonomic `analyze`/`suffix`/… functions that normalize arbitrary or
+Unicode input live behind the (default) `alloc` / `idna` features.
+
 ## Why another crate?
 
 The existing `psl` and `publicsuffix` crates work, but have rough edges. `psl2`
 is designed around a few principles:
 
 - **Fast builds, no `build.rs`.** The list is normalized to ASCII **at publish
-  time** and embedded as plain data via `include_str!`. There is no
-  procedural-macro codegen and no per-build list processing, so adding `psl2`
-  to your dependency tree costs almost nothing in compile time.
+  time** and embedded as plain, sorted data via `include_str!`, queried with a
+  no-alloc binary search. There is no procedural-macro codegen and no per-build
+  list processing, so adding `psl2` costs almost nothing in compile time.
+- **`no_std` + `no_alloc` core**, usable on embedded targets.
 - **Built-in IDNA.** You pass a `&str` hostname — Unicode or not — and `psl2`
   normalizes it for you. No need to punycode-encode input yourself.
 - **Clean, explicit API** over `&str`, with ICANN / private / unknown
@@ -55,27 +72,41 @@ is designed around a few principles:
 
 ## API
 
+Allocation-free core (always available):
+
 | Function | Returns |
 | --- | --- |
-| `analyze(host) -> Option<Info>` | Full analysis (zero-copy accessors) |
+| `lookup(host) -> Option<Domain>` | Borrowing analysis of a **pre-normalized** host |
+| `psl_version() -> &'static str` | The bundled PSL version |
+
+[`Domain`](https://docs.rs/psl2/latest/psl2/struct.Domain.html) exposes
+`suffix()`, `registrable_domain()`, `subdomain()`, `is_public_suffix()`,
+`typ()`, `is_icann()`, `is_private()`, `is_known()`, and `as_str()` — all
+returning borrowed `&str`.
+
+Allocating convenience (requires `alloc`, on by default; normalizes any input):
+
+| Function | Returns |
+| --- | --- |
+| `analyze(host) -> Option<Info>` | Full analysis with owned normalized form |
 | `suffix(host) -> Option<String>` | The public suffix |
 | `registrable_domain(host) -> Option<String>` | The eTLD+1 (cookie domain) |
 | `subdomain(host) -> Option<String>` | The labels left of the registrable domain |
 | `is_public_suffix(host) -> bool` | Whether `host` is itself a public suffix |
-| `psl_version() -> &'static str` | The bundled PSL version |
 
-[`Info`](https://docs.rs/psl2/latest/psl2/struct.Info.html) additionally
-exposes `subdomain()`, `is_icann()`, `is_private()`, `is_known()`, and
-`as_ascii()`.
-
-`analyze` is the zero-allocation path: its accessors return slices into the
-normalized hostname, so prefer it on hot paths.
+`lookup` is the zero-allocation path; prefer it on hot paths when your input is
+already lowercase ASCII/punycode.
 
 ## Features
 
-- `idna` *(default)* — accept Unicode/IDN input via the [`idna`] crate. Disable
-  it (`default-features = false`) if you only ever pass ASCII/punycode
-  hostnames and want a leaner build; non-ASCII input then returns `None`.
+- `std` *(default)* — currently just implies `alloc`.
+- `alloc` *(default, via `std`)* — the allocating convenience API above.
+- `idna` *(default)* — accept Unicode/IDN input via the [`idna`] crate (implies
+  `alloc`). Without it, `alloc` input must be ASCII/punycode (lowercased for
+  you); non-ASCII returns `None`.
+
+With **no features**, only the allocation-free core (`lookup`, `Domain`,
+`Type`, `psl_version`) is compiled.
 
 ## ICANN vs. PRIVATE
 
@@ -86,14 +117,13 @@ The list has two sections: ICANN (real registry suffixes) and PRIVATE
 This means some names you might not expect are public suffixes — e.g.
 `registrable_domain("blogspot.com")` is `None`, and the registrable domain of
 `foo.blogspot.com` is `foo.blogspot.com` itself. This is intentional (diverging
-from the PSL would be worse); use `Info::is_icann()` / `Info::is_private()` to
-tell the sections apart when it matters.
+from the PSL would be worse); use `is_icann()` / `is_private()` on `Domain` or
+`Info` to tell the sections apart when it matters.
 
 ## MSRV
 
-Rust **1.86**, set by the `idna` dependency tree (the `icu` crates). Building
-with `default-features = false` (no IDNA) removes that constraint and only needs
-Rust 1.70 (for `std::sync::OnceLock`).
+Rust **1.86**, set by the `idna` dependency tree (the `icu` crates). The
+allocation-free core (`default-features = false`) builds on much older Rust.
 
 ## License
 
@@ -104,10 +134,10 @@ The `psl2` source code is dual-licensed under either of
 
 at your option.
 
-The **bundled Public Suffix List data** (`src/list.txt`, derived from
-`public_suffix_list.dat`) is © the Mozilla Foundation and distributed under the
-[Mozilla Public License v2.0][MPL]. It is included unmodified in substance,
-only re-encoded for efficient lookup.
+The **bundled Public Suffix List data** (`src/rules.txt`, `src/wildcards.txt`,
+`src/exceptions.txt`, derived from `public_suffix_list.dat`) is © the Mozilla
+Foundation and distributed under the [Mozilla Public License v2.0][MPL]. It is
+included unmodified in substance, only re-encoded for efficient lookup.
 
 [`psl`]: https://crates.io/crates/psl
 [`idna`]: https://crates.io/crates/idna

@@ -50,8 +50,8 @@ jobs:
         run: |
           # Decide solely on the embedded data: the upstream .dat header changes
           # on every release (VERSION/COMMIT), but we only bump when the actual
-          # suffix rules in src/list.txt differ.
-          if git diff --quiet src/list.txt; then
+          # suffix rules in the generated data differ.
+          if git diff --quiet src/rules.txt src/wildcards.txt src/exceptions.txt; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No effective changes in the Public Suffix List."
           else
@@ -110,8 +110,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          psl_version=$(sed -n 's/^# PSL VERSION: //p' src/list.txt)
-          git add Cargo.toml src/list.txt list/public_suffix_list.dat
+          psl_version=$(cat src/psl_version.txt)
+          git add Cargo.toml src/rules.txt src/wildcards.txt src/exceptions.txt \
+                  src/psl_version.txt list/public_suffix_list.dat
           git commit -m "chore: update PSL to ${psl_version} (v${{ steps.bump.outputs.version }})"
           git tag "v${{ steps.bump.outputs.version }}"
 
