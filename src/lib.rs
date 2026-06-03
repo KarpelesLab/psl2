@@ -91,12 +91,64 @@ use alloc::string::String;
 
 use core::cmp::Ordering;
 
-/// Ordinary rules (`com`, `co.uk`), one `rule\tS` per line, sorted by rule.
-static RULES: &str = include_str!("rules.txt");
+// `MAX_RULE_LABELS`: the most labels any rule has (generated from the list).
+include!("generated.rs");
+
+/// A sorted block of `rule\tS` lines (`.txt`) plus a companion index (`.idx`)
+/// holding each line's `u32` little-endian byte offset, so lines can be reached
+/// by index without scanning for newlines.
+struct Block {
+    text: &'static str,
+    idx: &'static [u8],
+}
+
+/// Ordinary rules (`com`, `co.uk`).
+static RULES: Block = Block {
+    text: include_str!("rules.txt"),
+    idx: include_bytes!("rules.idx"),
+};
 /// Wildcard rules `*.Y`, keyed by `Y` (e.g. `ck` for `*.ck`).
-static WILDCARDS: &str = include_str!("wildcards.txt");
+static WILDCARDS: Block = Block {
+    text: include_str!("wildcards.txt"),
+    idx: include_bytes!("wildcards.idx"),
+};
 /// Exception rules `!X`, keyed by `X` (e.g. `www.ck`).
-static EXCEPTIONS: &str = include_str!("exceptions.txt");
+static EXCEPTIONS: Block = Block {
+    text: include_str!("exceptions.txt"),
+    idx: include_bytes!("exceptions.idx"),
+};
+
+impl Block {
+    /// Number of lines in the block.
+    #[inline]
+    fn len(&self) -> usize {
+        self.idx.len() / 4
+    }
+
+    /// Byte offset of line `i` within `text`.
+    #[inline]
+    fn offset(&self, i: usize) -> usize {
+        let o = i * 4;
+        u32::from_le_bytes([
+            self.idx[o],
+            self.idx[o + 1],
+            self.idx[o + 2],
+            self.idx[o + 3],
+        ]) as usize
+    }
+
+    /// Line `i` (`rule\tS`), without the trailing newline.
+    #[inline]
+    fn line(&self, i: usize) -> &'static str {
+        let start = self.offset(i);
+        let end = if i + 1 < self.len() {
+            self.offset(i + 1) - 1 // drop the '\n' before the next line
+        } else {
+            self.text.len()
+        };
+        &self.text[start..end]
+    }
+}
 
 /// Upper bound on labels we analyze (a 253-char hostname has at most ~127).
 const MAX_LABELS: usize = 128;
@@ -125,28 +177,18 @@ struct Parts {
 }
 
 /// Binary-search one sorted data block for `key`, returning its [`Type`] if a
-/// line's rule equals `key`. Allocation-free.
-fn lookup_block(block: &str, key: &str) -> Option<Type> {
-    let b = block.as_bytes();
+/// line's rule equals `key`. Allocation-free, O(log n) with direct line access.
+fn lookup_block(block: &Block, key: &str) -> Option<Type> {
+    let kb = key.as_bytes();
     let mut lo = 0usize;
-    let mut hi = b.len();
-    // Invariant: `lo` and `hi` are line starts (or the very end of the block).
+    let mut hi = block.len();
     while lo < hi {
-        // Midpoint, snapped back to the start of the line it falls in.
-        let mut mid = lo + (hi - lo) / 2;
-        while mid > lo && b[mid - 1] != b'\n' {
-            mid -= 1;
-        }
-        // End of that line.
-        let mut end = mid;
-        while end < hi && b[end] != b'\n' {
-            end += 1;
-        }
-        let (rule, sec) = split_line(&block[mid..end]);
-        match key.as_bytes().cmp(rule.as_bytes()) {
+        let mid = lo + (hi - lo) / 2;
+        let (rule, sec) = split_line(block.line(mid));
+        match kb.cmp(rule.as_bytes()) {
             Ordering::Equal => return Some(sec),
             Ordering::Less => hi = mid,
-            Ordering::Greater => lo = end + 1,
+            Ordering::Greater => lo = mid + 1,
         }
     }
     None
@@ -189,16 +231,20 @@ fn compute(ascii: &str) -> Option<Parts> {
     let mut best: Option<(usize, Type)> = None;
     let mut exception: Option<(usize, Type)> = None;
 
-    for i in 0..n {
+    // No rule has more than MAX_RULE_LABELS labels, so candidates longer than
+    // that cannot match — only the rightmost MAX_RULE_LABELS labels matter.
+    // This bounds work to a constant regardless of how deep `ascii` is.
+    let start = n.saturating_sub(MAX_RULE_LABELS);
+    for i in start..n {
         let cand = &ascii[offs[i]..]; // labels i..n => (n - i) labels
         let rule_labels = n - i;
 
-        if let Some(ty) = lookup_block(EXCEPTIONS, cand) {
+        if let Some(ty) = lookup_block(&EXCEPTIONS, cand) {
             if exception.is_none_or(|(c, _)| rule_labels > c) {
                 exception = Some((rule_labels, ty));
             }
         }
-        if let Some(ty) = lookup_block(RULES, cand) {
+        if let Some(ty) = lookup_block(&RULES, cand) {
             if best.is_none_or(|(c, _)| rule_labels > c) {
                 best = Some((rule_labels, ty));
             }
@@ -206,7 +252,7 @@ fn compute(ascii: &str) -> Option<Parts> {
         // Wildcard `*.Y`: the `*` consumes label `i`, `Y` is labels i+1..n.
         if i + 1 < n {
             let y = &ascii[offs[i + 1]..];
-            if let Some(ty) = lookup_block(WILDCARDS, y) {
+            if let Some(ty) = lookup_block(&WILDCARDS, y) {
                 if best.is_none_or(|(c, _)| rule_labels > c) {
                     best = Some((rule_labels, ty));
                 }
@@ -540,6 +586,7 @@ pub fn is_public_suffix(domain: &str) -> bool {
 mod tests {
     extern crate std;
     use super::*;
+    #[cfg(feature = "alloc")]
     use std::string::String;
 
     #[test]
@@ -584,12 +631,13 @@ mod tests {
         assert!(!d.is_known());
     }
 
-    /// Cross-check the binary search against a brute-force scan for every rule.
+    /// Every rule in every block must be found, and the index must stay
+    /// consistent (offsets sorted, lines round-trip).
     #[test]
     fn binary_search_matches_linear() {
-        for block in [RULES, WILDCARDS, EXCEPTIONS] {
-            for line in block.lines() {
-                let (rule, sec) = split_line(line);
+        for block in [&RULES, &WILDCARDS, &EXCEPTIONS] {
+            for i in 0..block.len() {
+                let (rule, sec) = split_line(block.line(i));
                 assert_eq!(lookup_block(block, rule), Some(sec), "missing {rule:?}");
             }
             assert_eq!(lookup_block(block, "\u{0}definitely-not-present"), None);

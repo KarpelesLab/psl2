@@ -81,4 +81,9 @@ jobs:
       - name: Regenerate from the vendored list
         run: cargo run -p xtask
       - name: Fail if the embedded data would change
-        run: git diff --exit-code src/rules.txt src/wildcards.txt src/exceptions.txt src/psl_version.txt
+        run: |
+          git diff --exit-code \
+            src/rules.txt src/rules.idx \
+            src/wildcards.txt src/wildcards.idx \
+            src/exceptions.txt src/exceptions.idx \
+            src/psl_version.txt src/generated.rs
