@@ -45,6 +45,40 @@ jobs:
       - name: Build no_std + alloc + idna
         run: cargo build -p psl2 --no-default-features --features idna --target thumbv6m-none-eabi
 
+  cross-arch:
+    # Run the *actual test suite* under QEMU on a spread of architectures. The
+    # embedded trie is little-endian on disk and decoded with explicit
+    # from_le_bytes, so the big-endian targets (s390x, powerpc) are the real
+    # proof that lookups are endianness-independent; the 32-bit targets exercise
+    # the u32->usize offset casts on a narrower pointer width.
+    name: cross test / ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: s390x-unknown-linux-gnu        # 64-bit big-endian
+          - target: powerpc-unknown-linux-gnu      # 32-bit big-endian
+          - target: aarch64-unknown-linux-gnu      # 64-bit little-endian (ARM)
+          - target: armv7-unknown-linux-gnueabihf  # 32-bit little-endian (ARM)
+          - target: i686-unknown-linux-gnu         # 32-bit little-endian (x86)
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cross
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+      # --lib --tests runs unit + integration tests (incl. the official PSL
+      # vectors) but skips benches/doctests, which are slow and pointless under
+      # emulation.
+      - name: Test (all features) under QEMU
+        run: cross test --target ${{ matrix.target }} --all-features --lib --tests --verbose
+      - name: Test (core no_alloc) under QEMU
+        run: cross test --target ${{ matrix.target }} --no-default-features --lib --tests --verbose
+
   lint:
     name: fmt + clippy
     runs-on: ubuntu-latest
