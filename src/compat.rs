@@ -71,6 +71,7 @@ impl<'a> Suffix<'a> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Domain<'a> {
     bytes: &'a [u8],
+    prefix: Option<&'a [u8]>,
     suffix: Suffix<'a>,
 }
 
@@ -86,6 +87,22 @@ impl<'a> Domain<'a> {
     pub fn suffix(&self) -> Suffix<'a> {
         self.suffix
     }
+
+    /// The prefix — the labels to the left of the registrable domain (what the
+    /// [`addr`] crate calls `prefix`, and what the main API calls
+    /// [`crate::Domain::subdomain`]). `None` when there is no subdomain.
+    ///
+    /// ```
+    /// let d = psl2::compat::domain_str("www.example.co.uk").unwrap();
+    /// assert_eq!(d.prefix(), Some(&b"www"[..]));
+    /// assert_eq!(psl2::compat::domain_str("example.co.uk").unwrap().prefix(), None);
+    /// ```
+    ///
+    /// [`addr`]: https://crates.io/crates/addr
+    #[inline]
+    pub fn prefix(&self) -> Option<&'a [u8]> {
+        self.prefix
+    }
 }
 
 /// Parse `name` into the matching host string, its [`Parts`], and whether it
@@ -97,11 +114,37 @@ fn parse(name: &[u8]) -> Option<(&str, Parts, bool)> {
     }
     let fqdn = s.as_bytes().last() == Some(&b'.');
     let host = if fqdn { &s[..s.len() - 1] } else { s };
-    if host.is_empty() {
+    // Reject empty labels (leading/trailing dot or `..`). The PSL format
+    // forbids empty labels, and rejecting them here keeps this API consistent
+    // with the main `lookup` path — `suffix(b".")`, `suffix(b"..")`, and
+    // `domain(b"com..")` all return `None` rather than a degenerate match.
+    if host.is_empty() || has_empty_label(host) {
         return None;
     }
     let parts = compute(host)?;
     Some((host, parts, fqdn))
+}
+
+/// `true` if `host` (already stripped of any single fully-qualifying dot) has
+/// an empty label: a leading dot, a trailing dot, or two consecutive dots.
+/// `host` must be non-empty.
+fn has_empty_label(host: &str) -> bool {
+    let b = host.as_bytes();
+    if b[0] == b'.' || b[b.len() - 1] == b'.' {
+        return true;
+    }
+    let mut prev_dot = false;
+    for &c in b {
+        if c == b'.' {
+            if prev_dot {
+                return true;
+            }
+            prev_dot = true;
+        } else {
+            prev_dot = false;
+        }
+    }
+    false
 }
 
 /// Get the public suffix of a domain name (`psl`-compatible).
@@ -129,10 +172,18 @@ pub fn suffix_str(name: &str) -> Option<Suffix<'_>> {
 pub fn domain(name: &[u8]) -> Option<Domain<'_>> {
     let (host, parts, fqdn) = parse(name)?;
     let domain_off = parts.domain_off?;
+    let hb = host.as_bytes();
     Some(Domain {
-        bytes: &host.as_bytes()[domain_off..],
+        bytes: &hb[domain_off..],
+        // The subdomain is everything before the registrable domain's leading
+        // dot; absent when the registrable domain starts at offset 0.
+        prefix: if domain_off > 0 {
+            Some(&hb[..domain_off - 1])
+        } else {
+            None
+        },
         suffix: Suffix {
-            bytes: &host.as_bytes()[parts.suffix_off..],
+            bytes: &hb[parts.suffix_off..],
             typ: parts.typ,
             fqdn,
         },
@@ -196,5 +247,46 @@ mod tests {
         assert_eq!(suffix(b""), None);
         assert_eq!(domain(b""), None);
         assert_eq!(suffix(&[0xff, 0xfe]), None); // not UTF-8
+    }
+
+    // Empty labels are rejected consistently (addr-rs/psl#7): unlike `psl`,
+    // none of these return a degenerate `Some("")` / `Some(".")`.
+    #[test]
+    fn empty_labels_rejected() {
+        for bad in [
+            "", ".", "..", "...", ".com", "com..", "..com", "a..b", "a.b..",
+        ] {
+            assert_eq!(suffix_str(bad), None, "suffix_str({bad:?})");
+            assert_eq!(domain_str(bad), None, "domain_str({bad:?})");
+        }
+        // A single fully-qualifying trailing dot is still fine.
+        assert!(suffix_str("example.com.").is_some());
+        assert_eq!(
+            domain_str("example.com.").unwrap().as_bytes(),
+            b"example.com"
+        );
+    }
+
+    // `Domain::prefix()` exposes the subdomain (addr-rs/psl#8).
+    #[test]
+    fn prefix() {
+        assert_eq!(
+            domain_str("www.example.co.uk").unwrap().prefix(),
+            Some(&b"www"[..])
+        );
+        assert_eq!(
+            domain_str("a.b.example.com").unwrap().prefix(),
+            Some(&b"a.b"[..])
+        );
+        // No subdomain -> no prefix.
+        assert_eq!(domain_str("example.com").unwrap().prefix(), None);
+        // Prefix is consistent with the main API's subdomain().
+        assert_eq!(
+            domain_str("www.example.co.uk")
+                .unwrap()
+                .prefix()
+                .map(|b| core::str::from_utf8(b).unwrap()),
+            crate::lookup("www.example.co.uk").unwrap().subdomain()
+        );
     }
 }
