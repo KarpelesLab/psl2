@@ -1199,6 +1199,7 @@ charity	I
 charter.aero	I
 chase	I
 chat	I
+chatgpt.site	P
 cheap	I
 cheap.jp	P
 chef.ec	I
@@ -8983,6 +8984,7 @@ vi	I
 vi.it	I
 vi.us	I
 viajes	I
+vibehost.space	P
 vibo-valentia.it	I
 vibovalentia.it	I
 vic.au	I
