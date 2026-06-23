@@ -5280,6 +5280,7 @@ mjondalen.no	I
 mk	I
 mk.eu.org	P
 mk.ua	I
+mkm.fan	P
 mktg.ec	I
 ml	I
 mlb	I
