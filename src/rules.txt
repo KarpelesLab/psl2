@@ -1753,14 +1753,17 @@ ddl.fr-par.scw.cloud	P
 ddl.nl-ams.scw.cloud	P
 ddl.pl-waw.scw.cloud	P
 ddns-ip.net	P
+ddns.berlin	P
 ddns.me	P
 ddns.net	P
+ddns.wtf	P
 ddnsfree.com	P
 ddnsgeek.com	P
 ddnsguru.com	P
 ddnsking.com	P
 ddnss.de	P
 ddnss.org	P
+ddnssec.de	P
 dds	I
 de	I
 de.com	P
@@ -1879,7 +1882,11 @@ dnsdojo.com	P
 dnsdojo.net	P
 dnsdojo.org	P
 dnsfor.me	P
+dnshome.at	P
+dnshome.cloud	P
 dnshome.de	P
+dnshome.eu	P
+dnshome.it	P
 dnsiskinky.com	P
 dnsking.ch	P
 dnsup.net	P
@@ -1950,6 +1957,7 @@ dyn.addr.tools	P
 dyn.cosidns.de	P
 dyn.ddnss.de	P
 dyn.home-webserver.de	P
+dyn.now	P
 dynalias.com	P
 dynalias.net	P
 dynalias.org	P
@@ -1978,6 +1986,7 @@ dyndns.org	P
 dyndns.tv	P
 dyndns.ws	P
 dyndns1.de	P
+dyndnssec.de	P
 dynns.com	P
 dynserv.org	P
 dynu.net	P
@@ -3339,6 +3348,8 @@ health.vn	I
 healthcare	I
 heavy.jp	P
 heguri.nara.jp	I
+heimdns.de	P
+heimdns.online	P
 heiyu.space	P
 hekinan.aichi.jp	I
 helioho.st	P
@@ -7000,6 +7011,7 @@ reservd.disrec.thingdust.io	P
 reservd.testing.thingdust.io	P
 reserve-online.net	P
 resindevice.io	P
+resolve.bar	P
 rest	I
 restaurant	I
 restaurant.bj	I
@@ -8017,6 +8029,7 @@ srht.site	P
 srl	I
 srv.br	I
 srv.us	P
+srvdns.de	P
 sryze.cc	P
 ss	I
 ss.it	I
