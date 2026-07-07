@@ -824,7 +824,6 @@ birkenes.no	I
 bitbucket.io	P
 bitter.jp	P
 biz	I
-biz.at	P
 biz.az	I
 biz.bb	I
 biz.cy	I
@@ -3174,6 +3173,7 @@ grimstad.no	I
 gripe	I
 griw.gov.pl	I
 grocery	I
+grok.me	P
 groks-the.info	P
 groks-this.info	P
 grondar.za	I
@@ -3736,7 +3736,6 @@ inf.mk	I
 inf.ua	P
 infiniti	I
 info	I
-info.at	P
 info.az	I
 info.bb	I
 info.bd	I
