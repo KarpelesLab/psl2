@@ -1821,6 +1821,7 @@ deuxfleurs.page	P
 dev	I
 dev-myqnapcloud.com	P
 dev.br	I
+dev.cv	P
 dev.project-study.com	P
 development.run	P
 devices.resinstaging.io	P
@@ -7590,6 +7591,7 @@ scb	I
 scbl.fr-par.scw.cloud	P
 scbl.nl-ams.scw.cloud	P
 scbl.pl-waw.scw.cloud	P
+sch.ac	P
 sch.ae	I
 sch.bd	I
 sch.id	I
@@ -8078,6 +8080,7 @@ stord.no	I
 stordal.no	I
 store	I
 store.bb	I
+store.cv	P
 store.dk	P
 store.nf	I
 store.ro	I
