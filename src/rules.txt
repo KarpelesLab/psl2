@@ -184,6 +184,7 @@ aem.network	P
 aem.page	P
 aem.reviews	P
 aero	I
+aero.in	I
 aero.mv	I
 aerobatic.aero	I
 aeroclub.aero	I
@@ -310,6 +311,7 @@ alta.no	I
 altervista.org	P
 alto-adige.it	I
 altoadige.it	I
+alumni.in	I
 alvdal.no	I
 alwaysdata.net	P
 am	I
@@ -546,7 +548,7 @@ auction	I
 audi	I
 audible	I
 audio	I
-audnedaln.no	I
+audnedal.no	I
 augustow.pl	I
 aukra.no	I
 aure.no	I
@@ -1700,6 +1702,7 @@ cx	I
 cx.ua	P
 cy	I
 cy.eu.org	P
+cyb.ge	I
 cymru	I
 cyon.link	P
 cyon.site	P
@@ -2656,7 +2659,6 @@ freedesktop.org	P
 freemyip.com	P
 freesite.host	P
 freetls.fastly.net	P
-frei.no	I
 freight.aero	I
 frenchkiss.jp	P
 fresenius	I
@@ -2879,6 +2881,7 @@ gh.srv.us	P
 gi	I
 gialai.vn	I
 giehtavuoatna.no	I
+gielda.no	I
 gift	I
 gifts	I
 gifu.gifu.jp	I
@@ -3492,6 +3495,7 @@ holy.jp	P
 home-webserver.de	P
 home.arpa	I
 home.dyndns.org	P
+home64.de	P
 homebuilt.aero	I
 homedepot	I
 homedns.org	P
@@ -3827,6 +3831,8 @@ ipfs.storacha.link	P
 ipfs.w3s.link	P
 ipifony.net	P
 ipiranga	I
+ipv64.de	P
+ipv64.net	P
 iq	I
 ir	I
 ir.md	P
@@ -4808,6 +4814,7 @@ living	I
 livorno.it	I
 lk	I
 llc	I
+llc.ge	I
 llp	I
 ln.cn	I
 lo.it	I
@@ -5483,6 +5490,7 @@ myfritz.link	P
 myfritz.net	P
 myftp.biz	P
 myftp.org	P
+mygov.scot	P
 myhome-server.de	P
 myiphost.com	P
 myjino.ru	P
@@ -6254,6 +6262,7 @@ onion	I
 onjuku.chiba.jp	I
 onl	I
 online	I
+online.ge	I
 online.th	P
 onna.okinawa.jp	I
 ono.fukui.jp	I
@@ -6940,6 +6949,7 @@ rdy.jp	P
 re	I
 re.it	I
 re.kr	I
+re.no	I
 read	I
 read-books.org	P
 readmyblog.org	P
@@ -7612,6 +7622,7 @@ schokokeks.net	P
 scholarships	I
 school	I
 school.ge	I
+school.in	I
 school.nz	I
 school.za	I
 schoolbus.jp	P
@@ -8166,6 +8177,7 @@ sunagawa.hokkaido.jp	I
 sund.no	I
 sunndal.no	I
 sunnyday.jp	P
+suohkan.no	I
 supabase.co	P
 supabase.in	P
 supabase.net	P
@@ -8407,6 +8419,7 @@ tirol	I
 tj	I
 tj.cn	I
 tjeldsund.no	I
+tjielte.no	I
 tjmaxx	I
 tjome.no	I
 tjx	I
@@ -8433,6 +8446,7 @@ tn	I
 tn.it	I
 tn.oxa.cloud	P
 tn.us	I
+tnx.ge	I
 to	I
 to.gov.br	I
 to.it	I
@@ -8743,6 +8757,7 @@ u.se	I
 u2-local.xnbay.com	P
 u2.xnbay.com	P
 ua	I
+ub.in	I
 ubank	I
 ube.yamaguchi.jp	I
 uber.space	P
@@ -8759,6 +8774,7 @@ udono.mie.jp	I
 ueda.nagano.jp	I
 ueno.gunma.jp	I
 uenohara.yamanashi.jp	I
+uenorge.no	I
 ufcfan.org	P
 ug	I
 ug.gov.pl	I
@@ -8784,6 +8800,7 @@ ukiha.fukuoka.jp	I
 ullensaker.no	I
 ullensvang.no	I
 ulsan.kr	I
+ulstein.no	I
 ulvik.no	I
 um.gov.pl	I
 umaji.kochi.jp	I
@@ -9476,6 +9493,7 @@ xn--h2breg3eve	I
 xn--h2brj9c	I
 xn--h2brj9c8c	I
 xn--h3cuzk1di.xn--o3cw4h	I
+xn--hamary-fya.no	I
 xn--hbmer-xqa.no	I
 xn--hcesuolo-7ya35b.no	I
 xn--hebda8b.xn--4dbrk0ce	I
@@ -9508,6 +9526,7 @@ xn--jlster-bya.no	I
 xn--jrpeland-54a.no	I
 xn--jvr189m	I
 xn--k7yn95e.jp	I
+xn--karlsy-fya.no	I
 xn--karmy-yua.no	I
 xn--kbrq7o.jp	I
 xn--kcrx77d1x4a	I
