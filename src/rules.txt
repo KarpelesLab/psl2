@@ -132,7 +132,6 @@ ac.rw	I
 ac.se	I
 ac.sz	I
 ac.th	I
-ac.tj	I
 ac.tz	I
 ac.ug	I
 ac.uk	I
