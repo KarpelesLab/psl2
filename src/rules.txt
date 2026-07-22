@@ -402,7 +402,6 @@ apartments	I
 api.br	I
 api.gov.uk	P
 api.lp.dev	P
-api.stdlib.com	P
 apigee.io	P
 app	I
 app-ionos.space	P
@@ -427,7 +426,6 @@ appwrite.network	P
 aq	I
 aq.it	I
 aquarelle	I
-aquila.it	I
 ar	I
 ar.it	I
 ar.us	I
@@ -1832,7 +1830,6 @@ df.leg.br	P
 dfirma.pl	P
 dgca.aero	I
 dgn.ec	I
-dh.bytemark.co.uk	P
 dhl	I
 diadem.cloud	P
 diamonds	I
@@ -3575,7 +3572,6 @@ hyogo.jp	I
 hypernode.io	P
 hyuga.miyazaki.jp	I
 hyundai	I
-hzc.io	P
 i.bg	I
 i.ng	I
 i.ph	I
@@ -6250,7 +6246,6 @@ onagawa.miyagi.jp	I
 oncilla.mythic-beasts.com	P
 ondigitalocean.app	P
 one	I
-onfabrica.com	P
 ong	I
 ong.br	I
 onga.fukuoka.jp	I
@@ -6828,7 +6823,6 @@ promo	I
 properties	I
 property	I
 protection	I
-protonet.io	P
 pru	I
 prudential	I
 pruszkow.pl	I
@@ -8098,7 +8092,6 @@ store.st	I
 store.ve	I
 storebase.store	P
 storfjord.no	I
-storj.farm	P
 strand.no	I
 stranda.no	I
 strapiapp.com	P
@@ -8150,10 +8143,13 @@ stuff-4-sale.us	P
 stufftoread.com	P
 style	I
 su	I
+su.it	I
 sub.jp	P
 subsc-pay.com	P
 subsc-pay.net	P
 sucks	I
+sud-sardegna.it	I
+sudsardegna.it	I
 sue.fukuoka.jp	I
 suedtirol.it	I
 suginami.tokyo.jp	I
@@ -8646,7 +8642,6 @@ trentinoaltoadige.it	I
 trentinos-tirol.it	I
 trentinostirol.it	I
 trentinosud-tirol.it	I
-trentinosudtirol.it	I
 trentinosued-tirol.it	I
 trentinosuedtirol.it	I
 trentinsud-tirol.it	I
@@ -8793,7 +8788,6 @@ uk.net	P
 uk.oxa.cloud	P
 uk.primetel.cloud	P
 uk.reclaim.cloud	P
-uk0.bigv.io	P
 uki.kumamoto.jp	I
 ukiha.fukuoka.jp	I
 ullensaker.no	I
@@ -8924,7 +8918,6 @@ val-d-aosta.it	I
 val-daosta.it	I
 val.run	P
 vald-aosta.it	I
-valdaosta.it	I
 valer.hedmark.no	I
 valer.ostfold.no	I
 valle-aosta.it	I
@@ -8967,6 +8960,7 @@ venice.it	I
 vennesla.no	I
 ventures	I
 verbania.it	I
+verbano-cusio-ossola.it	I
 vercel.app	P
 vercel.dev	P
 vercel.run	P
@@ -9063,7 +9057,6 @@ vladikavkaz.su	P
 vladimir.ru	P
 vladimir.su	P
 vlog.br	I
-vm.bytemark.co.uk	P
 vn	I
 vn.ua	I
 voagat.no	I

@@ -106,7 +106,6 @@ compute-1.amazonaws.com	P
 compute.amazonaws.com	P
 compute.amazonaws.com.cn	P
 compute.estate	P
-cryptonomic.net	P
 customer-oci.com	P
 d.crm.dev	P
 database.run	P
