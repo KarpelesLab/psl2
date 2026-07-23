@@ -1813,8 +1813,6 @@ desi	I
 design	I
 design.aero	I
 det.br	I
-deta.app	P
-deta.dev	P
 deus-canvas.com	P
 deuxfleurs.eu	P
 deuxfleurs.page	P
