@@ -9129,6 +9129,7 @@ wazuka.kyoto.jp	I
 we.bs	P
 weather	I
 weatherchannel	I
+web	I
 web.app	P
 web.bo	I
 web.core.usgovcloudapi.net	P
