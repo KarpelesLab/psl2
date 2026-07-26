@@ -186,7 +186,6 @@ oaiusercontent.com	P
 oci.customer-oci.com	P
 ocp.customer-oci.com	P
 ocs.customer-oci.com	P
-on-acorn.io	P
 on-k3s.io	P
 on-rancher.cloud	P
 on-rio.io	P
