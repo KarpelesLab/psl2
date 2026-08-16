@@ -9075,7 +9075,7 @@ vp4.me	P
 vpndns.net	P
 vpnplus.to	P
 vps-host.net	P
-vps.hrsn.au	P
+vps.hrsn.net	P
 vps.mcdir.ru	P
 vr.it	I
 vs.it	I
