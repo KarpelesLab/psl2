@@ -158,7 +158,6 @@ actor	I
 ad	I
 ad.jp	I
 adachi.tokyo.jp	I
-adaptable.app	P
 adimo.co.uk	P
 adm.br	I
 adm.ec	I
@@ -246,7 +245,6 @@ airtraffic.aero	I
 aisai.aichi.jp	I
 aisho.shiga.jp	I
 aiven.app	P
-aivencloud.com	P
 aizubange.fukushima.jp	I
 aizumi.tokushima.jp	I
 aizumisato.fukushima.jp	I
@@ -334,6 +332,7 @@ amica	I
 amli.no	I
 amot.no	I
 amplifyapp.com	P
+ams.scw.site	P
 amsterdam	I
 an.it	I
 analytics	I
@@ -1278,6 +1277,7 @@ cl.it	I
 claims	I
 clan.rip	P
 claude.app	P
+claudeusercontent.com	P
 cleaning	I
 clerk.app	P
 clerkstage.app	P
@@ -1436,6 +1436,8 @@ cockpit.nl-ams.scw.cloud	P
 cockpit.pl-waw.scw.cloud	P
 cocotte.jp	P
 codeberg.page	P
+codepen.app	P
+codepen.dev	P
 codes	I
 codespot.com	P
 coffee	I
@@ -2633,6 +2635,7 @@ fr-par-2.baremetal.scw.cloud	P
 fr.eu.org	P
 fr.it	I
 fra1-de.cloudjiffy.net	P
+frame.claudeusercontent.com	P
 framer.ai	P
 framer.app	P
 framer.media	P
@@ -3364,6 +3367,7 @@ hercules-app.com	P
 hercules-dev.com	P
 here	I
 here-for-more.info	P
+here.now	P
 hermes	I
 herokuapp.com	P
 heroy.more-og-romsdal.no	I
@@ -6254,6 +6258,7 @@ onion	I
 onjuku.chiba.jp	I
 onl	I
 online	I
+online-server.cloud	P
 online.ge	I
 online.th	P
 onna.okinawa.jp	I
@@ -7630,6 +7635,7 @@ scot	I
 scrapper-site.net	P
 scrapping.cc	P
 scrysec.com	P
+scw.site	P
 sd	I
 sd.cn	I
 sd.us	I
@@ -9125,6 +9131,7 @@ watch	I
 watches	I
 watson.jp	P
 waw.pl	I
+waw.scw.site	P
 wazuka.kyoto.jp	I
 we.bs	P
 weather	I

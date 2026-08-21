@@ -42,6 +42,7 @@ airflow.us-east-1.on.aws	P
 airflow.us-east-2.on.aws	P
 airflow.us-west-1.on.aws	P
 airflow.us-west-2.on.aws	P
+aivencloud.com	P
 alces.network	P
 ap-east-1.airflow.amazonaws.com	P
 ap-east-1.rds.amazonaws.com	P
@@ -106,6 +107,7 @@ compute-1.amazonaws.com	P
 compute.amazonaws.com	P
 compute.amazonaws.com.cn	P
 compute.estate	P
+cursorusercontent.com	P
 customer-oci.com	P
 d.crm.dev	P
 database.run	P
