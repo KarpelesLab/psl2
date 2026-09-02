@@ -1,6 +1,6 @@
 [package]
 name = "psl2"
-version = "0.1.19"
+version = "0.1.20"
 edition = "2021"
 # MSRV is driven by the `idna` dependency tree (icu/idna_adapter require 1.86).
 # The no_std/no_alloc core (default-features = false) works on much older Rust.

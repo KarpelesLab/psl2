@@ -1051,6 +1051,7 @@ canon	I
 cantho.vn	I
 canva-apps.cn	P
 canva-apps.com	P
+canva-code.cn	P
 canva-hosted-embed.com	P
 canva.link	P
 canva.run	P
@@ -1793,7 +1794,6 @@ dell-ogliastra.it	I
 dellogliastra.it	I
 deloitte	I
 delta	I
-demo.datacenter.fi	P
 demo.datadetect.com	P
 demo.jelastic.com	P
 democracia.bo	I
@@ -6561,7 +6561,6 @@ pa.it	I
 pa.leg.br	P
 pa.us	I
 paas.beebyte.io	P
-paas.datacenter.fi	P
 paas.hosted-by-previder.com	P
 paas.massivegrid.com	P
 pabianice.pl	P
@@ -8442,6 +8441,7 @@ tm.se	I
 tm.za	I
 tmall	I
 tmp.br	I
+tmp.now	P
 tn	I
 tn.it	I
 tn.oxa.cloud	P
@@ -8753,8 +8753,6 @@ tz	I
 u.bg	I
 u.channelsdvr.net	P
 u.se	I
-u2-local.xnbay.com	P
-u2.xnbay.com	P
 ua	I
 ub.in	I
 ubank	I
@@ -9781,7 +9779,6 @@ xn--ystre-slidre-ujb.no	I
 xn--zbx025d.jp	I
 xn--zf0avx.hk	I
 xn--zfr164b	I
-xnbay.com	P
 xs4all.space	P
 xtooldevice.com	P
 xx.kg	P

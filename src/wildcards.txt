@@ -120,6 +120,8 @@ dweb.link	P
 elb.amazonaws.com	P
 elb.amazonaws.com.cn	P
 er	I
+eth.limo	P
+eth.link	P
 eu-central-1.airflow.amazonaws.com	P
 eu-central-1.r.cloud.int.apple	P
 eu-central-1.rds.amazonaws.com	P
