@@ -7074,6 +7074,7 @@ ro.gov.br	I
 ro.it	I
 ro.leg.br	P
 roan.no	I
+rocketpreview.app	P
 rocks	I
 rocky.page	P
 rodeo	I
