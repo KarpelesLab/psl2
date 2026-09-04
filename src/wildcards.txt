@@ -199,6 +199,7 @@ oraclegovcloudapps.com	P
 oraclegovcloudapps.uk	P
 otap.co	P
 owo.codes	P
+p.azurewebsites.net	P
 pa.crm.dev	P
 paywhirl.com	P
 pb.crm.dev	P
