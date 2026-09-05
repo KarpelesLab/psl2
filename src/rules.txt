@@ -6324,6 +6324,7 @@ ooshika.nagano.jp	I
 oow.gov.pl	I
 opal.ne.jp	P
 open	I
+opencloud.me	P
 opencraft.hosting	P
 opensocial.site	P
 opentunnel.xyz	P
