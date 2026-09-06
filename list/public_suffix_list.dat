@@ -5,8 +5,8 @@
 // Please pull this list from, and only from https://publicsuffix.org/list/public_suffix_list.dat,
 // rather than any other VCS sites. Pulling from any other URL is not guaranteed to be supported.
 
-// VERSION: 2026-09-05_08-18-52_UTC
-// COMMIT: 69d97f7f9a4bb1d52ee0e43c759eae7be29e62b4
+// VERSION: 2026-09-05_20-36-11_UTC
+// COMMIT: ddc71a75ef63befa2d2a99ba25b22e03656bc6fa
 
 // Instructions on pulling and using this list can be found at https://publicsuffix.org/list/.
 
@@ -460,7 +460,7 @@ net.bn
 org.bn
 
 // bo : https://nic.bo
-// Confirmed by registry <soporte@nic.bo> 2024-11-19
+// Confirmed by registry <soporte@nic.bo> 2026-09-01
 bo
 com.bo
 edu.bo
@@ -484,6 +484,7 @@ deporte.bo
 ecologia.bo
 economia.bo
 empresa.bo
+ia.bo
 indigena.bo
 industria.bo
 info.bo
