@@ -224,6 +224,7 @@ ai.id	I
 ai.in	I
 ai.jo	I
 ai.kr	I
+ai.studio	P
 ai.vn	I
 aibetsu.hokkaido.jp	I
 aichi.jp	I
@@ -1312,6 +1313,7 @@ cloud.fedoraproject.org	P
 cloud.goog	P
 cloud.interhostsolutions.be	P
 cloud.nospamproxy.com	P
+cloud.run	P
 cloud66.ws	P
 cloudaccess.host	P
 cloudaccess.net	P
