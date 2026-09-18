@@ -299,7 +299,6 @@ allfinanz	I
 allstate	I
 ally	I
 alp1.ae.flow.ch	P
-alpha-myqnapcloud.com	P
 alsace	I
 alstahaug.no	I
 alstom	I
@@ -1836,7 +1835,6 @@ deus-canvas.com	P
 deuxfleurs.eu	P
 deuxfleurs.page	P
 dev	I
-dev-myqnapcloud.com	P
 dev.br	I
 dev.cv	P
 dev.project-study.com	P
