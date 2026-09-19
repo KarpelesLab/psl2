@@ -3557,6 +3557,7 @@ horten.no	I
 hosp.uk	P
 hospital	I
 host	I
+hosted-by-files.com	P
 hostedpi.com	P
 hosting	I
 hosting-cluster.nl	P
