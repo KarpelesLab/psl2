@@ -82,6 +82,7 @@ atlassian-isolated-3p.com	P
 auiusercontent.com	P
 awdev.ca	P
 awsapprunner.com	P
+azure.databricksapps.com	P
 azurecontainer.io	P
 beget.app	P
 begetcdn.cloud	P

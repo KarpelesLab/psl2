@@ -616,6 +616,8 @@ avoues.fr	I
 aw	I
 awaji.hyogo.jp	I
 aws	I
+aws-gov.databricksapps.us	P
+aws.databricksapps.com	P
 awsapps.com	P
 awsglobalaccelerator.com	P
 ax	I
@@ -2861,6 +2863,7 @@ gb	I
 gb.net	P
 gbiz	I
 gc.ca	I
+gcp.databricksapps.com	P
 gd	I
 gd.cn	I
 gda.pl	P
