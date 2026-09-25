@@ -2943,6 +2943,7 @@ gl.srv.us	P
 glass	I
 gle	I
 gleeze.com	P
+glideos.app	P
 gliding.aero	I
 gliwice.pl	P
 global	I
@@ -3863,6 +3864,7 @@ ipiranga	I
 ipv64.de	P
 ipv64.net	P
 iq	I
+iqhs.pl	P
 ir	I
 ir.md	P
 iran.liara.run	P
@@ -7946,9 +7948,11 @@ siracusa.it	I
 sirdal.no	I
 sisko.replit.dev	P
 site	I
+site.hosting-cluster.nl	P
 site.rb-hosting.io	P
 site.tb-hosting.com	P
 site.transip.me	P
+site.webhosting.be	P
 siteleaf.net	P
 sj	I
 sjc.br	I
