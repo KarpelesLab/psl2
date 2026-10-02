@@ -4134,7 +4134,6 @@ js.org	P
 js.wpenginepowered.com	P
 ju.mp	P
 juegos	I
-juniper	I
 jur.pro	I
 jus.br	I
 jx.cn	I
