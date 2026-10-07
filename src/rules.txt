@@ -322,6 +322,7 @@ amagasaki.hyogo.jp	I
 amakusa.kumamoto.jp	I
 amami.kagoshima.jp	I
 amazon	I
+amazonlightsail.com	P
 ambulance.aero	I
 americanexpress	I
 americanfamily	I
@@ -386,10 +387,13 @@ ap-northeast-1.elasticbeanstalk.com	P
 ap-northeast-2.elasticbeanstalk.com	P
 ap-northeast-3.elasticbeanstalk.com	P
 ap-south-1.elasticbeanstalk.com	P
+ap-south-2.elasticbeanstalk.com	P
 ap-southeast-1.elasticbeanstalk.com	P
 ap-southeast-2.elasticbeanstalk.com	P
 ap-southeast-3.elasticbeanstalk.com	P
+ap-southeast-4.elasticbeanstalk.com	P
 ap-southeast-5.elasticbeanstalk.com	P
+ap-southeast-6.elasticbeanstalk.com	P
 ap-southeast-7.elasticbeanstalk.com	P
 ap.gov.br	I
 ap.gov.pl	I
@@ -434,7 +438,6 @@ arakawa.saitama.jp	I
 arakawa.tokyo.jp	I
 aramco	I
 arao.kumamoto.jp	I
-archer.replit.dev	P
 archi	I
 architectes.bj	I
 ardal.no	I
@@ -567,6 +570,7 @@ auth-fips.us-west-1.amazoncognito.com	P
 auth-fips.us-west-2.amazoncognito.com	P
 auth.af-south-1.amazoncognito.com	P
 auth.ap-east-1.amazoncognito.com	P
+auth.ap-east-2.amazoncognito.com	P
 auth.ap-northeast-1.amazoncognito.com	P
 auth.ap-northeast-2.amazoncognito.com	P
 auth.ap-northeast-3.amazoncognito.com	P
@@ -577,6 +581,7 @@ auth.ap-southeast-2.amazoncognito.com	P
 auth.ap-southeast-3.amazoncognito.com	P
 auth.ap-southeast-4.amazoncognito.com	P
 auth.ap-southeast-5.amazoncognito.com	P
+auth.ap-southeast-6.amazoncognito.com	P
 auth.ap-southeast-7.amazoncognito.com	P
 auth.ca-central-1.amazoncognito.com	P
 auth.ca-west-1.amazoncognito.com	P
@@ -914,7 +919,6 @@ bom	I
 bomlo.no	I
 bona.jp	P
 bond	I
-bones.replit.dev	P
 boo	I
 boo.jp	P
 book	I
@@ -1020,6 +1024,7 @@ c01.kr	P
 c66.me	P
 ca	I
 ca-central-1.elasticbeanstalk.com	P
+ca-west-1.elasticbeanstalk.com	P
 ca.eu.org	P
 ca.in	I
 ca.it	I
@@ -1057,7 +1062,6 @@ campobasso.it	I
 can.re	P
 canadacentral-01.azurewebsites.net	P
 canadaeast-01.azurewebsites.net	P
-canary.replit.dev	P
 candypop.jp	P
 canon	I
 cantho.vn	I
@@ -2407,6 +2411,7 @@ eu-2.evennode.com	P
 eu-3.evennode.com	P
 eu-4.evennode.com	P
 eu-central-1.elasticbeanstalk.com	P
+eu-central-2.elasticbeanstalk.com	P
 eu-north-1.elasticbeanstalk.com	P
 eu-south-1.elasticbeanstalk.com	P
 eu-south-2.elasticbeanstalk.com	P
@@ -2948,7 +2953,6 @@ gliding.aero	I
 gliwice.pl	P
 global	I
 global.prod.fastly.net	P
-global.replit.dev	P
 global.ssl.fastly.net	P
 globo	I
 glogow.pl	I
@@ -3286,7 +3290,6 @@ hachinohe.aomori.jp	I
 hachioji.tokyo.jp	I
 hachirogata.akita.jp	I
 hackclub.app	P
-hacker.replit.dev	P
 hadano.kanagawa.jp	I
 hadsel.no	I
 haebaru.okinawa.jp	I
@@ -3652,7 +3655,6 @@ id.lv	I
 id.ly	I
 id.repl.co	P
 id.replit.app	P
-id.replit.dev	P
 id.us	I
 id.vn	I
 ide.kyoto.jp	I
@@ -4053,7 +4055,6 @@ jaguar	I
 jambyl.su	P
 jampa.br	I
 jan-mayen.no	I
-janeway.replit.dev	P
 japaneast-01.azurewebsites.net	P
 japanwest-01.azurewebsites.net	P
 java	I
@@ -4406,7 +4407,6 @@ kilo.jp	P
 kiloapps.ai	P
 kiloapps.io	P
 kim	I
-kim.replit.dev	P
 kimino.wakayama.jp	I
 kimitsu.chiba.jp	I
 kimobetsu.hokkaido.jp	I
@@ -4417,9 +4417,7 @@ kingston.wa.us	P
 kinko.kagoshima.jp	I
 kinokawa.wakayama.jp	I
 kira.aichi.jp	I
-kira.replit.dev	P
 kirara.st	P
-kirk.replit.dev	P
 kirkenes.no	I
 kirovograd.ua	I
 kiryu.gunma.jp	I
@@ -6185,7 +6183,6 @@ odda.no	I
 odesa.ua	I
 odessa.ua	I
 odo.br	I
-odo.replit.dev	P
 odont.ec	I
 oe.yamagata.jp	I
 of.by	I
@@ -6637,7 +6634,6 @@ paragliding.aero	I
 parallel.jp	P
 parasite.jp	P
 paris	I
-paris.replit.dev	P
 parliament.nz	I
 parma.it	I
 paroch.k12.ma.us	I
@@ -6709,7 +6705,6 @@ pi.gov.br	I
 pi.it	I
 pi.leg.br	P
 piacenza.it	I
-picard.replit.dev	P
 pics	I
 pictet	I
 pictures	I
@@ -6718,7 +6713,6 @@ piebox.site	P
 piedmont.it	I
 piemonte.it	I
 pigboat.jp	P
-pike.replit.dev	P
 pila.pl	I
 pilot.aero	I
 pimienta.org	P
@@ -6828,7 +6822,6 @@ prd.fr	I
 prd.km	I
 prd.mg	I
 prequalifyme.today	P
-prerelease.replit.dev	P
 press	I
 press.aero	I
 press.cy	I
@@ -7026,7 +7019,6 @@ red.sv	I
 redirectme.net	P
 redmond.wa.us	P
 redumbrella	I
-reed.replit.dev	P
 reg.dk	P
 reggio-calabria.it	I
 reggio-emilia.it	I
@@ -7057,7 +7049,6 @@ repbody.aero	I
 repl.co	P
 repl.run	P
 replit.app	P
-replit.dev	P
 report	I
 republican	I
 res.aero	I
@@ -7075,6 +7066,7 @@ rest	I
 restaurant	I
 restaurant.bj	I
 resto.bj	I
+retool.app	P
 review	I
 reviews	I
 revista.bo	I
@@ -7093,7 +7085,6 @@ ricoh	I
 rieti.it	I
 rifu.miyagi.jp	I
 riik.ee	I
-riker.replit.dev	P
 rikubetsu.hokkaido.jp	I
 rikuzentakata.iwate.jp	I
 ril	I
@@ -7945,7 +7936,6 @@ sinaapp.com	P
 singles	I
 siracusa.it	I
 sirdal.no	I
-sisko.replit.dev	P
 site	I
 site.hosting-cluster.nl	P
 site.rb-hosting.io	P
@@ -8082,7 +8072,6 @@ spdns.eu	P
 spdns.org	P
 sphinx.mythic-beasts.com	P
 spjelkavik.no	I
-spock.replit.dev	P
 sport	I
 sport.eg	I
 sport.hu	I
@@ -8118,7 +8107,6 @@ stackit.zone	P
 stada	I
 stage.nodeart.io	P
 staging.expo.app	P
-staging.replit.dev	P
 stalowa-wola.pl	I
 stange.no	I
 staples	I
@@ -8230,7 +8218,6 @@ sukumo.kochi.jp	I
 sula.no	I
 suldal.no	I
 suli.hu	I
-sulu.replit.dev	P
 sumida.tokyo.jp	I
 sumita.iwate.jp	I
 sumomo.ne.jp	P
@@ -8390,7 +8377,6 @@ taranto.it	I
 target	I
 targi.pl	I
 tarnobrzeg.pl	I
-tarpit.replit.dev	P
 tarui.gifu.jp	I
 tarumizu.kagoshima.jp	I
 tas.au	I
@@ -8424,7 +8410,6 @@ te.it	I
 te.ua	I
 teaches-yoga.com	P
 team	I
-teams.replit.dev	P
 tec.br	I
 tec.mi.us	I
 tec.ve	I
@@ -8773,7 +8758,6 @@ tsuyama.okayama.jp	I
 tt	I
 tt.im	I
 tube	I
-tucker.replit.dev	P
 tui	I
 tul.ec	I
 tula.su	P
@@ -9303,7 +9287,6 @@ weeklylottery.org.uk	P
 wegrow.pl	I
 weibo	I
 weir	I
-wesley.replit.dev	P
 west1-us.cloudjiffy.net	P
 westcentralus-01.azurewebsites.net	P
 westeurope-01.azurewebsites.net	P
@@ -9358,7 +9341,6 @@ wodzislaw.pl	I
 wolomin.pl	I
 woltlab-demo.com	P
 woodside	I
-worf.replit.dev	P
 work	I
 workers.dev	P
 workinggroup.aero	I

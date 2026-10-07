@@ -149,7 +149,7 @@ webhosting
 cloudscalednskingfirenetflowgotdnslinkyard-cloudobjectstoragecistrondemonhosting-clusterkhplay13370emm180r1cooldns1kapp
 3utilities4ua2hostedabrdns
 aivencloud
-aliases121alibabacloudcs	amazonawsamazoncognito
+aliases121alibabacloudcs	amazonawsamazoncognitoamazonlightsail
 amplifyappappchiziapplinziappspacehostedappspaceusercontentappspotatlassian-3patlassian-3p-us-gov-modatlassian-isolated-3patmetaauiusercontentauthgear-stagingauthgearappsawsapprunnerawsappsawsglobalacceleratorbalena-devicesbarsycenterbarsyonlinebase44-sandboxblogspotblogsyteboutirbuiltwithdarkbumbleshrimpcafjs
 canva-appscanva-hosted-embed	canvacodecdn77-storagecechirecf-ipfs
 ciscofreakclaudeusercontentclever-cloudcloudflare-ipfscodecodespotcprapidcpservercursorusercontentcustomer-oci
@@ -255,7 +255,8 @@ layershiftnh-serv	retrosnubpersopolrelrtxxaemewphlxalcesappwritearvo
 deuxfleursheyflowpdnspleskprvcyrocky
 statichost
 af-south-1	ap-east-1ap-northeast-1ap-northeast-2ap-northeast-3
-ap-south-1ap-southeast-1ap-southeast-2ap-southeast-3ap-southeast-5ap-southeast-7ca-central-1eu-central-1
+ap-south-1
+ap-south-2ap-southeast-1ap-southeast-2ap-southeast-3ap-southeast-4ap-southeast-5ap-southeast-6ap-southeast-7ca-central-1	ca-west-1eu-central-1eu-central-2
 eu-north-1
 eu-south-1
 eu-south-2	eu-west-1	eu-west-2	eu-west-3il-central-1me-central-1
@@ -281,7 +282,7 @@ higashiomihikonekokakoseikusatsumaibaramoriyamanagahama	nishiazainotogaw
 clerkstagecodepenconvex	corespeedcsb	developere2b	easypaneledgecomputeencr	evervaultexpoflutterflowgadgetglideoshackclubhasurahostedleapcelllovablemagicpatternsmedusajsmesserlimirenmochanetlify
 ngrok-freenoop
 northflanknyaton-fleekondigitalocean
-onherculespplxputerrailwayreplitrocketpreview	shiptoday	snowflake	spawnbasesprites	streamlit	typedreamupsunvercelwalwasmerwindsurfwnextzeaburzerops	aizubange
+onherculespplxputerrailwayreplitretoolrocketpreview	shiptoday	snowflake	spawnbasesprites	streamlit	typedreamupsunvercelwalwasmerwindsurfwnextzeaburzerops	aizubange
 aizumisatoaizuwakamatsuasakawabandaifurudonofutabahanawahiratahironoiitate
 inawashiroiwaki	izumizaki
 kagamiishikaneyamakawamatakitakatakitashiobarakoorikoriyamakunimimiharumishimanamienango	nishiaizunishigookumaomotegootamasamegawashimogo	shirakawashowasomasukagawataishintamakawatanagurateneiyabuki	yamatsuriyanaizuyugawaaizumiichibaitanokainankomatsushima
@@ -295,8 +296,7 @@ hitachiotainashikiitakoiwamajosokamisukasamakashimakasumigaurakogamiho
 sakuragawa	shimodate
 shimotsuma	shirosatosowasuifutakahagitamatsukuritomobetonetoride	tsuchiuratsukubauchiharaushikuyawarayukibyencaffeinecanvachatgptclouderacpanelcyonfastvpsfigma	figma-govjouwwebmadethisnotionnovecoreomniwe
 opensocialpiebox
-platformshplaycodepreviewscwsolsourcecraftsquaresrhttst	wpsquaredamsairflow
-ap-south-2ap-southeast-4	ca-west-1compute	compute-1elbeu-central-2rdss3s3-1s3-ap-east-1s3-ap-northeast-1s3-ap-northeast-2s3-ap-northeast-3s3-ap-south-1s3-ap-southeast-1s3-ap-southeast-2s3-ca-central-1s3-eu-central-1s3-eu-north-1s3-eu-west-1s3-eu-west-2s3-eu-west-3s3-external-1s3-fips-us-gov-east-1s3-fips-us-gov-west-1	s3-globals3-me-south-1s3-sa-east-1s3-us-east-2s3-us-gov-east-1s3-us-gov-west-1s3-us-west-1s3-us-west-2s3-website-ap-northeast-1s3-website-ap-southeast-1s3-website-ap-southeast-2s3-website-eu-west-1s3-website-sa-east-1s3-website-us-east-1s3-website-us-gov-west-1s3-website-us-west-1s3-website-us-west-2analytics-gateway
+platformshplaycodepreviewscwsolsourcecraftsquaresrhttst	wpsquaredamsairflowcompute	compute-1elbrdss3s3-1s3-ap-east-1s3-ap-northeast-1s3-ap-northeast-2s3-ap-northeast-3s3-ap-south-1s3-ap-southeast-1s3-ap-southeast-2s3-ca-central-1s3-eu-central-1s3-eu-north-1s3-eu-west-1s3-eu-west-2s3-eu-west-3s3-external-1s3-fips-us-gov-east-1s3-fips-us-gov-west-1	s3-globals3-me-south-1s3-sa-east-1s3-us-east-2s3-us-gov-east-1s3-us-gov-west-1s3-us-west-1s3-us-west-2s3-website-ap-northeast-1s3-website-ap-southeast-1s3-website-ap-southeast-2s3-website-eu-west-1s3-website-sa-east-1s3-website-us-east-1s3-website-us-gov-west-1s3-website-us-west-1s3-website-us-west-2analytics-gateway
 aws-cloud9cloud9	dualstackemrappui-prodemrnotebooks-prodemrstudio-prodexecute-apis3-accesspoints3-object-lambda
 s3-websites3-deprecateds3-accesspoint-fipss3-fipsanamizuhakuihakusankagakahokukanazawakawakitanakanotonanaonominonoichinotoshikasuzutsubatatsurugiuchinadawajimaandogosehegurihigashiyoshinoikarugaikomakamikitayamakanmakikashiba	kashihara	katsuragikawaikoryokurotakimitsuemiyakenosegawaojioudaoyodosakuraisango	shimoichishimokitayamasonitakatori
 tawaramototenkawatenriudayamatokoriyamayamatotakadayamazoeyoshino	ann-arborcogdsteaton	washtenawannakafujiokahigashiagatsumaisesakiitakurakannakanra	katashinakawabakiryumaebashimeiwaminakami
@@ -312,8 +312,7 @@ fujinomiyafukuroigotembahaibara	hamamatsu
 higashiizuitoiwataizu	izunokunikakegawakannami	kawanehonkawazukikugawakosai
 makinohara	matsuzaki	minamiizu	morimachinishiizunumazuomaezakishimadashimodasusonoyaizuyoshidaasakachichibufujiminofukayahannohanyuhasudahatogayahatoyamahigashichichibuhigashimatsuyamairumaiwatsuki	kamiizumikamisatokasukabekawagoe	kawaguchikawajimakazokitamoto	koshigayakounosukukikumagaya
 matsubushiminano	miyashiromoroyamanagatoronamegawaniizaoganoogoseokegawaomiyaranzanryokamisakadosatteshikishiraokasokasugitotodatokigawa
-tokorozawatsurugashimaurawawarabiyashioyokozeyonoyorii	yoshikawayoshimiarcherbonescanaryhackerjanewaykirkpicardpike
-prereleasereedrikersiskospockstagingsulutarpitteamstuckerwesleyworfariakearitafukudomigenkaihamatamahizenimarikamiminekanzakikaratsukitahatakiyamakouhokukyuragi
+tokorozawatsurugashimaurawawarabiyashioyokozeyonoyorii	yoshikawayoshimiariakearitafukudomigenkaihamatamahizenimarikamiminekanzakikaratsukitahatakiyamakouhokukyuragi
 nishiaritaogiouchi	shiroishitakutaratosuyoshinogariarida	aridagawagobo	hashimotohirogawainamiiwade	kamitondakiminokinokawakitayamakoyakozakozagawakudoyama	kushimotonachikatsuura	shirahamataijitanabeyuasayurae164homein-addrip6irisuriurnartsotherwwwe12emprenderarinabeisekameyamakihokisosakikiwakomonokumanokuwana	matsusaka	minamiisemisugimiyamanabarishimasuzukatadotakitamakitobatsuudonoureshinowatarai	yokkaichi	fukumitsu	funahashihimiimizujohanakamiichikurobenakaniikawa
 namerikawanantonyuzenoyabetairatakaokatogatonamiunazukiuozuyamadafunagata	higashineiide
 kaminoyama
@@ -329,7 +328,7 @@ eastus2-01eastus2euap-01
 eastus3-01francecentral-01francesouth-01germanynorth-01germanywestcentral-01indiasouthcentral-01indonesiacentral-01israelcentral-01israelnorthwest-01italynorth-01japaneast-01japanwest-01jioindiacentral-01jioindiawest-01koreacentral-01koreasouth-01malaysiawest-01mexicocentral-01newzealandnorth-01northcentralus-01northcentralusstage-01northeastus5-01northeurope-01norwayeast-01norwaywest-01polandcentral-01qatarcentral-01southafricanorth-01southafricawest-01southcentralus-01southcentralus2-01southeastasia-01southeastus5-01southindia-01spaincentral-01swedencentral-01swedensouth-01switzerlandnorth-01switzerlandwest-01taiwannorth-01taiwannorthwest-01uaecentral-01uaenorth-01
 uksouth-01	ukwest-01westcentralus-01westeurope-01westindia-01	westus-01
 westus2-01
-westus3-01mx-central-1auth	auth-fipsamazonwebservicesdirectwpdogadonxaprvweusc-de-east-1cognito-idpbbsbelkeptskrepost	sagemakeraws-govgcpayaebinogokasehyugakadogawa
+westus3-01	ap-east-2mx-central-1auth	auth-fipsamazonwebservicesdirectwpdogadonxaprvweusc-de-east-1cognito-idpbbsbelkeptskrepost	sagemakeraws-govgcpayaebinogokasehyugakadogawa
 kawaminamikijokitaura	kobayashikunitomikushimamimata
 miyakonojo	morotsukanichinan	nishimeranobeokasaitoshiibashintomitakaharutakanabetakazakiayabefukuchiyamahigashiyamaideinejoyokameokakizukumiyamakyotamba	kyotanabekyotangomaizuruminamiyamashiromiyazumuko
 nagaokakyonakagyonantan	oyamazakisakyoseikauji	ujitawarawazuka	yamashinayawataayagawahigashikagawakanonjikotohiramannomarugamemitoyonaoshimasanukitadotsu	takamatsutonoshouchinomiutazuzentsujiresolvebarrel-of-knowledgebarrell-of-knowledge	dnsupdatedvrcamdynamic-dnsfor-ourforumz	groks-the
@@ -353,7 +352,7 @@ tabitorderoymygov	consulado	embaixadaheliohokiraranohoprincipesaotome	bar
 xn--gmqw5axn--lcvr32d
 xn--mk0axixn--od0aq3b	xn--tn0ag
 xn--uc0atvxn--uc0ay4axn--wcvs22d
-xn--zf0avxiztraembjcloudminisiteplosecsurveysensintlmincomorangecloudmymailergub0emyforumnogcustlpgrmadisrectestingcustomd6dyndemoinstancesandboxdeviceslibp2p	discourseimagineaddrechizeneiheiji	katsuyamaminamiechizenohisabaetsurugaritelasticru-mskru-spbintouchtawktawktofrontendententerprisecloudmerseinemineshacknetes-1eu-1eu-2eu-3eu-4us-1us-2us-3us-4ezproxyf5gitappgitpagemkmfltusr	functionshis
+xn--zf0avxiztraembjcloudminisiteplosecsurveysensintlmincomorangecloudmymailergub0emyforumnogcustlpgrmadisrectestingcustomd6dyndemoinstancesandboxdeviceslibp2p	discourseimagineaddrechizeneiheiji	katsuyamaminamiechizenohisabaetsurugaritelasticru-mskru-spbintouchtawktawktofrontendententerprisecloudmerseinemineshacknetes-1eu-1eu-2eu-3eu-4us-1us-2us-3us-4stagingezproxyf5gitappgitpagemkmfltusr	functionshis
 ispmanagerforgotpaasfr-1lon-1lon-2ny-1ny-2sg-1fr-par-1fr-par-2nl-ams-1fudaihanamaki	hiraizumiichinohe
 ichinosekiiwaizumijobojikamaishi
 kanegasakikarumaikitakamikujikunohekuzumakimizusawamoriokaninoheofunatooshuotsuchirikuzentakatashiwashizukuishisumitatanohatatonoyahabavicpyicpzicpfurukawahigashimatsushima
@@ -363,5 +362,5 @@ lambda-urltransfer-webappmyddnswebspacelimaprg1-zeropstritonomgvpsmelm
 noticeablestudio-fipsntdllwadlvalerxn--vler-qoapages-researchphxplayitwithprequalifymesys	rag-cloudrag-cloud-chrealtimerelayrunsisk01isk02sekd1seproxoriginstaget3transfer-webapp-fipsuivfswebview-assetsxenxn--12c1fe0brxn--12cfi8ixb8lxn--12co0c3b4evaxn--h3cuzk1dixn--m3ch0j3axn--o3cyx2axn--41axn--80aaa0cvac
 xn--90a1af	xn--90amc	xn--h1ahn
 xn--h1aliz	xn--j1adpxn--j1ael8bxn--4dbgdty6cxn--5dbhl8d
-xn--8dbq2axn--hebda8bxn--80au	xn--90azhxn--d1atxn--o1ac	xn--o1achcode-builder-stg001wbwcwd	ap-east-2ap-southeast-6us-northeast-1
-ap-north-1us-central-1us-central-2	us-west-3builderdev-builderstg-builderclusterssrvrlessociocpocsexkundensvcwebpaasmtlsprivateprivatelink
+xn--8dbq2axn--hebda8bxn--80au	xn--90azhxn--d1atxn--o1ac	xn--o1achcode-builder-stg001wbwcwdus-northeast-1
+ap-north-1us-central-1us-central-2	us-west-3builderdev-builderstg-builderclusterssrvrlessociocpocsexkundensvcwebpaasmtlsprivateprivatelinkteams
