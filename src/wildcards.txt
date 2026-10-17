@@ -22,6 +22,7 @@ airflow.ap-southeast-2.on.aws	P
 airflow.ap-southeast-3.on.aws	P
 airflow.ap-southeast-4.on.aws	P
 airflow.ap-southeast-5.on.aws	P
+airflow.ap-southeast-7.on.aws	P
 airflow.ca-central-1.on.aws	P
 airflow.ca-west-1.on.aws	P
 airflow.cn-north-1.on.amazonwebservices.com.cn	P
