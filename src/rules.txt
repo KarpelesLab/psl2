@@ -2950,7 +2950,6 @@ girly.jp	P
 giske.no	I
 git-pages.rit.edu	P
 git-repos.de	P
-gitapp.si	P
 gitbook.io	P
 github.app	P
 github.io	P
