@@ -291,7 +291,6 @@ aland.fi	I
 alessandria.it	I
 alesund.no	I
 algard.no	I
-aliases121.com	P
 alibaba	I
 alibabacloudcs.com	P
 alipay	I
@@ -6634,7 +6633,6 @@ ownprovider.com	P
 ox.rs	P
 oxa.cloud	P
 oy.lc	P
-oya.to	P
 oyabe.toyama.jp	I
 oyama.tochigi.jp	I
 oyamazaki.kyoto.jp	I
