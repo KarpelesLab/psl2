@@ -309,3 +309,4 @@ xmit.co	P
 yokohama.jp	I
 zerops.app	P
 zerops.zone	P
+ztna-dingtalk.com	P
