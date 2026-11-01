@@ -3409,7 +3409,6 @@ hekinan.aichi.jp	I
 helioho.st	P
 heliohost.us	P
 help	I
-helsinki	I
 hemne.no	I
 hemnes.no	I
 hemsedal.no	I
