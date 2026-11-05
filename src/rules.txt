@@ -594,6 +594,7 @@ auth.eu-west-1.amazoncognito.com	P
 auth.eu-west-2.amazoncognito.com	P
 auth.eu-west-3.amazoncognito.com	P
 auth.il-central-1.amazoncognito.com	P
+auth.lovable.app	P
 auth.me-central-1.amazoncognito.com	P
 auth.me-south-1.amazoncognito.com	P
 auth.mx-central-1.amazoncognito.com	P
@@ -1937,6 +1938,7 @@ dnsupdater.de	P
 do	I
 doc.ec	I
 docs	I
+docsflowy.site	P
 doctor	I
 does-it.net	P
 doesntexist.com	P
@@ -4888,6 +4890,7 @@ lindesnes.no	I
 link	I
 linkyard-cloud.ch	P
 linkyard.cloud	P
+linkyhost.page	P
 littlestar.jp	P
 live	I
 live-on.net	P
@@ -5050,6 +5053,7 @@ mangyshlak.su	P
 maniwa.okayama.jp	I
 manno.kagawa.jp	I
 mantova.it	I
+manus.space	P
 maori.nz	I
 map	I
 map.fastly.net	P
@@ -6660,6 +6664,7 @@ pabianice.pl	P
 padova.it	I
 padua.it	I
 page	I
+pagelemon.dev	P
 pages-research.it.hs-heilbronn.de	P
 pages.dev	P
 pages.gay	P
@@ -7636,6 +7641,8 @@ sandoy.no	I
 sandvik	I
 sandvikcoromant	I
 sango.nara.jp	I
+sanity.run	P
+sanity.studio	P
 sanjo.niigata.jp	I
 sannan.hyogo.jp	I
 sannohe.aomori.jp	I
@@ -8031,6 +8038,7 @@ sld.do	I
 sld.pa	I
 slg.br	I
 sling	I
+sliplane.app	P
 slupsk.pl	I
 slz.br	I
 sm	I

@@ -82,6 +82,7 @@ ap-southeast-5.rds.amazonaws.com	P
 ap-southeast-6.rds.amazonaws.com	P
 ap-southeast-7.airflow.amazonaws.com	P
 ap-southeast-7.rds.amazonaws.com	P
+apps.grok.bot	P
 appwrite.run	P
 at.playit.plus	P
 at.ply.gg	P
@@ -219,6 +220,7 @@ otap.co	P
 owo.codes	P
 p.azurewebsites.net	P
 pa.crm.dev	P
+pages.grok.bot	P
 paywhirl.com	P
 pb.crm.dev	P
 pc.crm.dev	P
