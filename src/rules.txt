@@ -157,6 +157,7 @@ activetrail.biz	P
 actor	I
 ad	I
 ad.jp	I
+ad.vn	I
 adachi.tokyo.jp	I
 adimo.co.uk	P
 adm.br	I
@@ -399,6 +400,7 @@ ap.gov.pl	I
 ap.it	I
 ap.leg.br	P
 ap.ngrok.io	P
+ap.vn	I
 aparecida.br	I
 apartments	I
 api.br	I
@@ -6341,6 +6343,7 @@ on.biz.ng	P
 on.ca	I
 on.expo.app	P
 on.staging.expo.app	P
+on.vn	I
 onagawa.miyagi.jp	I
 oncilla.mythic-beasts.com	P
 ondigitalocean.app	P
@@ -6908,6 +6911,7 @@ pro.typeform.com	P
 pro.vn	I
 prochowice.pl	I
 prod	I
+prod.page	P
 production.aero	I
 productions	I
 prof	I
@@ -7923,6 +7927,7 @@ shinyoshitomi.fukuoka.jp	I
 shiogama.miyagi.jp	I
 shiojiri.nagano.jp	I
 shioya.tochigi.jp	I
+ship.place	P
 shiptoday.app	P
 shiptoday.build	P
 shirahama.wakayama.jp	I
