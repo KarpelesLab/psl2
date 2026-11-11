@@ -90,6 +90,7 @@ abrdns.com	P
 abruzzo.it	I
 abu.yamaguchi.jp	I
 abudhabi	I
+abyme.dev	P
 ac	I
 ac.ae	I
 ac.at	I
@@ -1351,6 +1352,7 @@ cloudns.pw	P
 cloudns.us	P
 cloudsite.builders	P
 cloudycluster.net	P
+cloudzyro.app	P
 club	I
 club.aero	I
 club.tw	I
@@ -3098,6 +3100,7 @@ gov.co	I
 gov.cx	I
 gov.cy	I
 gov.cz	I
+gov.de	P
 gov.dm	I
 gov.do	I
 gov.dz	I
