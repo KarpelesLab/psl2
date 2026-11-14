@@ -410,6 +410,7 @@ api.lp.dev	P
 apigee.io	P
 app	I
 app-ionos.space	P
+app.amba.host	P
 app.br	I
 app.os.fedoraproject.org	P
 app.os.stg.fedoraproject.org	P
@@ -1177,6 +1178,7 @@ ccwu.cc	P
 cd	I
 cd.eu.org	P
 cdn-edges.net	P
+cdn.amba.host	P
 cdn.bubble.io	P
 cdn.cloudflare.net	P
 cdn.cloudflareanycast.net	P
@@ -1704,6 +1706,7 @@ cr.ua	I
 craft.me	P
 cranky.jp	P
 crap.jp	P
+crbts.app	P
 crd.co	P
 credit	I
 creditcard	I
@@ -2648,6 +2651,7 @@ fm.br	I
 fm.it	I
 fm.jo	I
 fm.no	I
+fn.amba.host	P
 fnc.fr-par.scw.cloud	P
 fnd.br	I
 fo	I
@@ -2995,6 +2999,7 @@ gmo	I
 gmx	I
 gn	I
 gniezno.pl	I
+go.amba.host	P
 go.biz.ng	P
 go.ci	I
 go.cr	I
@@ -5163,6 +5168,7 @@ medicina.bo	I
 medio-campidano.it	I
 mediocampidano.it	I
 medusajs.app	P
+medusajs.site	P
 meet	I
 meguro.tokyo.jp	I
 mein-iserv.de	P
