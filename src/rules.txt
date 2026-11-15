@@ -208,6 +208,7 @@ agdenes.no	I
 agematsu.nagano.jp	I
 agency	I
 agents.aero	I
+agilevibes.app	P
 agr.br	I
 agrar.hu	I
 agri.jo	I
@@ -771,6 +772,7 @@ beagleboard.io	P
 bearalvahki.no	I
 bearblog.dev	P
 beardu.no	I
+bearly.sh	P
 beats	I
 beauty	I
 bedzin.pl	I
@@ -1401,6 +1403,7 @@ co.dm	I
 co.education	P
 co.events	P
 co.financial	P
+co.fo	P
 co.gg	I
 co.gl	I
 co.gy	I
@@ -1519,6 +1522,7 @@ com.es	I
 com.et	I
 com.fj	I
 com.fm	I
+com.fo	P
 com.fr	I
 com.ge	I
 com.gh	I
@@ -1807,6 +1811,7 @@ ddl.nl-ams.scw.cloud	P
 ddl.pl-waw.scw.cloud	P
 ddns-ip.net	P
 ddns.berlin	P
+ddns.ge	P
 ddns.me	P
 ddns.net	P
 ddns.wtf	P
@@ -1925,6 +1930,8 @@ dnipropetrovsk.ua	I
 dnp	I
 dns-cloud.net	P
 dns-dynamic.net	P
+dns.army	P
+dns.navy	P
 dnsabr.com	P
 dnsalias.com	P
 dnsalias.net	P
@@ -3736,8 +3743,6 @@ ilovecollege.info	P
 im	I
 im.it	I
 imabari.ehime.jp	I
-imagine-proxy.work	P
-imagine.diy	P
 imakane.hokkaido.jp	I
 imamat	I
 imari.saga.jp	I
@@ -5596,10 +5601,12 @@ myhome-server.de	P
 myiphost.com	P
 myjino.ru	P
 mykolaiv.ua	I
+mymagic.page	P
 mymailer.com.tw	P
 mymediapc.net	P
 mynascloud.com	P
 myoko.niigata.jp	I
+myoxypages.com	P
 mypep.link	P
 mypets.ws	P
 myphotos.cc	P
@@ -6003,6 +6010,7 @@ nimsite.uk	P
 ninhbinh.vn	I
 ninhthuan.vn	I
 ninja	I
+ninjaneer-sites.com	P
 ninohe.iwate.jp	I
 ninomiya.kanagawa.jp	I
 nirasaki.yamanashi.jp	I
@@ -6334,6 +6342,7 @@ omasvuotna.no	I
 ome.tokyo.jp	I
 omega	I
 omg.lol	P
+omgs.page	P
 omi.nagano.jp	I
 omi.niigata.jp	I
 omigawa.chiba.jp	I
@@ -7097,6 +7106,8 @@ rel.pl	I
 relay.evervault.app	P
 relay.evervault.dev	P
 reliance	I
+reliantlabs.dev	P
+reliantpreview.dev	P
 remotewd.com	P
 ren	I
 rendalen.no	I
@@ -7597,6 +7608,7 @@ saigawa.fukuoka.jp	I
 saijo.ehime.jp	I
 saikai.nagasaki.jp	I
 saiki.oita.jp	I
+sail.box	P
 saitama.jp	I
 saitama.saitama.jp	I
 saito.miyazaki.jp	I
@@ -8022,6 +8034,7 @@ site.tb-hosting.com	P
 site.transip.me	P
 site.webhosting.be	P
 siteleaf.net	P
+sites.reliantlabs.dev	P
 sj	I
 sjc.br	I
 sk	I
@@ -8060,6 +8073,7 @@ sliplane.app	P
 slupsk.pl	I
 slz.br	I
 sm	I
+sm.run	P
 sm.ua	I
 small-web.org	P
 smart	I
@@ -8143,6 +8157,7 @@ sp.leg.br	P
 spa	I
 space	I
 space-to-rent.com	P
+space.fast	P
 spaincentral-01.azurewebsites.net	P
 spawnbase.app	P
 spb.ru	P
@@ -8518,6 +8533,7 @@ teramo.it	I
 termez.su	P
 terni.it	I
 ternopil.ua	I
+terramind.io	P
 teshikaga.hokkaido.jp	I
 test-iserv.de	P
 test.tj	I
@@ -9050,6 +9066,9 @@ v-info.info	P
 v.bg	I
 v.ua	P
 v0.build	P
+v6.army	P
+v6.navy	P
+v6.rocks	P
 va	I
 va.it	I
 va.no	I
@@ -9170,6 +9189,7 @@ vicenza.it	I
 vicp.fun	P
 video	I
 video.hu	I
+view.fast	P
 vig	I
 vik.no	I
 viking	I
@@ -9208,6 +9228,7 @@ vlog.br	I
 vn	I
 vn.ua	I
 voagat.no	I
+voati.host	P
 vodka	I
 volda.no	I
 vologda.su	P
@@ -9455,6 +9476,8 @@ wuoz.gov.pl	I
 wv.us	I
 www.ro	I
 wy.us	I
+wz.io	P
+wz.org	P
 wzmiuw.gov.pl	I
 x.bg	I
 x.mythic-beasts.com	P
@@ -9930,6 +9953,7 @@ xn--zf0avx.hk	I
 xn--zfr164b	I
 xs4all.space	P
 xtooldevice.com	P
+xwx.me	P
 xx.kg	P
 xxx	I
 xxx.ec	I
