@@ -422,6 +422,7 @@ apple	I
 applinzi.com	P
 apps-1and1.com	P
 apps-1and1.net	P
+apps.devs.ai	P
 apps.fbsbx.com	P
 apps.lair.io	P
 appspacehosted.com	P
@@ -1193,6 +1194,7 @@ ce.gov.br	I
 ce.it	I
 ce.leg.br	P
 cechire.com	P
+ceero.site	P
 center	I
 centralia.wa.us	P
 centralindia-01.azurewebsites.net	P
@@ -2962,6 +2964,7 @@ gildeskal.no	I
 ginan.gifu.jp	I
 ginowan.okinawa.jp	I
 ginoza.okinawa.jp	I
+ginta.page	P
 girlfriend.jp	P
 girly.jp	P
 giske.no	I
@@ -4922,6 +4925,7 @@ lo.it	I
 loabat.no	I
 loan	I
 loans	I
+loc.cc	P
 localcert.net	P
 localplayer.dev	P
 localtonet.com	P
