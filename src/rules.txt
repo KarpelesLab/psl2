@@ -8119,6 +8119,7 @@ sokndal.no	I
 sol.site	P
 sola.no	I
 solar	I
+solidres.page	P
 solund.no	I
 solutions	I
 soma.fukushima.jp	I
