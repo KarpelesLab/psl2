@@ -2548,6 +2548,7 @@ farsund.no	I
 fashion	I
 fashionstore.jp	P
 fast	I
+fastedge.app	P
 fastly-edge.com	P
 fastly-terrarium.com	P
 fastlylb.net	P
@@ -2910,6 +2911,7 @@ gb	I
 gb.net	P
 gbiz	I
 gc.ca	I
+gcorecdn.com	P
 gcp.databricksapps.com	P
 gd	I
 gd.cn	I
@@ -4506,6 +4508,7 @@ kiyosu.aichi.jp	I
 kizu.kyoto.jp	I
 klabu.no	I
 klepp.no	I
+kliv.site	P
 klodzko.pl	I
 km	I
 km.ua	I
@@ -5050,6 +5053,7 @@ maibara.shiga.jp	I
 maif	I
 mail-box.ne.jp	P
 mail.pl	I
+mailerpage.io	P
 main.jp	P
 maintenance.aero	I
 maison	I
@@ -6017,6 +6021,7 @@ ninja	I
 ninjaneer-sites.com	P
 ninohe.iwate.jp	I
 ninomiya.kanagawa.jp	I
+nippy.site	P
 nirasaki.yamanashi.jp	I
 nis.za	I
 nishi.fukuoka.jp	I
@@ -6935,6 +6940,7 @@ pro.typeform.com	P
 pro.vn	I
 prochowice.pl	I
 prod	I
+prod.enter.pro	P
 prod.page	P
 production.aero	I
 productions	I
@@ -8304,6 +8310,7 @@ su.it	I
 sub.jp	P
 subsc-pay.com	P
 subsc-pay.net	P
+subscribepage.io	P
 sucks	I
 sud-sardegna.it	I
 sudsardegna.it	I
@@ -8970,6 +8977,7 @@ umi.fukuoka.jp	I
 umig.gov.pl	I
 umso.co	P
 unazuki.toyama.jp	I
+uncld.dev	P
 under.jp	P
 undo.jp	P
 uni5.net	P
