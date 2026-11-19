@@ -4703,6 +4703,7 @@ kyowa.akita.jp	I
 kyowa.hokkaido.jp	I
 kyuragi.saga.jp	I
 kz	I
+kz.ci	P
 l-o-g-i-n.de	P
 l.bg	I
 l.se	I
@@ -6992,6 +6993,7 @@ puter.app	P
 puter.site	P
 puter.work	P
 pv.it	I
+pvf.cc	P
 pvh.br	I
 pvt.ge	I
 pvt.k12.ma.us	I
@@ -9972,6 +9974,7 @@ xxx	I
 xxx.ec	I
 xyz	I
 xyz.br	I
+xyz.ci	P
 xz.cn	I
 y.bg	I
 y.se	I

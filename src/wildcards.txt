@@ -230,6 +230,7 @@ pe.crm.dev	P
 pf.crm.dev	P
 pg	I
 platformsh.site	P
+prairielearn-user-content.com	P
 private.repost.aws	P
 privatelink.snowflake.app	P
 qualyhqpartner.com	P
