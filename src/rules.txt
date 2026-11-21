@@ -2629,6 +2629,7 @@ fitjar.no	I
 fitness	I
 fj	I
 fj.cn	I
+fj.kg	P
 fjaler.no	I
 fjell.no	I
 fl.us	I
@@ -8215,6 +8216,7 @@ stackit.zone	P
 stada	I
 stage.nodeart.io	P
 staging.expo.app	P
+staging.wordsmithmcpcontent.com	P
 stalowa-wola.pl	I
 stange.no	I
 staples	I
@@ -9462,6 +9464,7 @@ wodzislaw.pl	I
 wolomin.pl	I
 woltlab-demo.com	P
 woodside	I
+wordsmithmcpcontent.com	P
 work	I
 workers.dev	P
 workinggroup.aero	I
