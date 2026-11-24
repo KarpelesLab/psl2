@@ -44,6 +44,7 @@ airflow.us-east-1.on.aws	P
 airflow.us-east-2.on.aws	P
 airflow.us-west-1.on.aws	P
 airflow.us-west-2.on.aws	P
+airoapp.ai	P
 aivencloud.com	P
 alces.network	P
 ap-east-1.airflow.amazonaws.com	P
@@ -167,6 +168,7 @@ fk	I
 frusky.de	P
 futurecms.at	P
 gateway.dev	P
+host.cloud	P
 hosted.app	P
 hosting.myjino.ru	P
 hosting.ovh.net	P
