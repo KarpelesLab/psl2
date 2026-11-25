@@ -256,6 +256,9 @@ sapporo.jp	I
 sch.uk	I
 sendai.jp	I
 services.clever-cloud.com	P
+shared.atlassian-3p-us-gov-mod.com	P
+shared.atlassian-3p.com	P
+shared.atlassian-isolated-3p.com	P
 snowflake.app	P
 spectrum.myjino.ru	P
 srvrless.rdpa.co	P

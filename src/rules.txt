@@ -160,7 +160,6 @@ ad	I
 ad.jp	I
 ad.vn	I
 adachi.tokyo.jp	I
-adimo.co.uk	P
 adm.br	I
 adm.ec	I
 adobeaemcloud.com	P
@@ -879,6 +878,8 @@ bl.it	I
 black	I
 blackbaudcdn.net	P
 blackfriday	I
+blacktops.app	P
+blacktops.page	P
 blob.core.usgovcloudapi.net	P
 blob.core.windows.net	P
 blockbuster	I
@@ -1890,7 +1891,6 @@ dfirma.pl	P
 dgca.aero	I
 dgn.ec	I
 dhl	I
-diadem.cloud	P
 diamonds	I
 dielddanuorri.no	I
 dienbien.vn	I
@@ -2528,6 +2528,7 @@ ezproxy.kuleuven.be	P
 f.bg	I
 f.se	I
 f5.si	P
+faable.link	P
 fage	I
 fail	I
 fairwinds	I
@@ -3250,6 +3251,7 @@ greater.jp	P
 grebedoc.dev	P
 green	I
 greta.fr	I
+greybull.site	P
 grimstad.no	I
 gripe	I
 griw.gov.pl	I
@@ -3902,11 +3904,13 @@ ip-ddns.com	P
 ip-dynamic.org	P
 ip.linodeusercontent.com	P
 ip6.arpa	I
+ipdisk.co.kr	P
 ipfs.nftstorage.link	P
 ipfs.storacha.link	P
 ipfs.w3s.link	P
 ipifony.net	P
 ipiranga	I
+iptime.org	P
 ipv64.de	P
 ipv64.net	P
 iq	I
@@ -4794,8 +4798,6 @@ le.it	I
 leadpages.co	P
 leangaviika.no	I
 leapcell.app	P
-leapcell.dev	P
-leapcell.online	P
 lease	I
 leasing.aero	I
 lebesby.no	I
@@ -5355,9 +5357,7 @@ minokamo.gifu.jp	I
 minowa.nagano.jp	I
 mint	I
 mints.ne.jp	P
-mircloud.host	P
 mircloud.ru	P
-mircloud.us	P
 miren.app	P
 miren.systems	P
 misaki.okayama.jp	I
@@ -6383,6 +6383,7 @@ ong	I
 ong.br	I
 onga.fukuoka.jp	I
 onhercules.app	P
+onhomemade.com	P
 onid.ca	P
 oninferno.net	P
 onion	I
@@ -7966,6 +7967,7 @@ shiogama.miyagi.jp	I
 shiojiri.nagano.jp	I
 shioya.tochigi.jp	I
 ship.place	P
+shipstatic.com	P
 shiptoday.app	P
 shiptoday.build	P
 shirahama.wakayama.jp	I
