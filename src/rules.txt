@@ -211,6 +211,7 @@ agilevibes.app	P
 agr.br	I
 agrar.hu	I
 agri.jo	I
+agric.bw	I
 agric.za	I
 agrigento.it	I
 agro.bj	I
@@ -541,6 +542,7 @@ atl.jelastic.vps-host.net	P
 atm.pl	I
 atmeta.com	P
 ato.br	I
+atoms.world	P
 atsugi.kanagawa.jp	I
 atsuma.hokkaido.jp	I
 attorney	I
@@ -804,6 +806,7 @@ bf	I
 bg	I
 bg.eu.org	P
 bg.it	I
+bg5.net	P
 bh	I
 bharti	I
 bhz.br	I
@@ -927,6 +930,7 @@ bom	I
 bomlo.no	I
 bona.jp	P
 bond	I
+bonto.page	P
 boo	I
 boo.jp	P
 book	I
@@ -2413,6 +2417,7 @@ ent.platform.sh	P
 enterprisecloud.nu	P
 enterprises	I
 entertainment.aero	I
+entrypages.net	P
 epson	I
 equipment	I
 equipment.aero	I
@@ -2809,6 +2814,7 @@ frontier	I
 frosinone.it	I
 frosta.no	I
 froya.no	I
+fs.kg	P
 fspages.org	P
 fst.br	I
 ftpaccess.cc	P
@@ -2867,6 +2873,7 @@ furubira.hokkaido.jp	I
 furudono.fukushima.jp	I
 furukawa.miyagi.jp	I
 fusa.no	I
+fusebase.site	P
 fuso.aichi.jp	I
 fussa.tokyo.jp	I
 futaba.fukushima.jp	I
@@ -3616,6 +3623,8 @@ hosted-by-files.com	P
 hostedpi.com	P
 hosting	I
 hosting-cluster.nl	P
+hostney.app	P
+hostney.cloud	P
 hostyhosting.io	P
 hot	I
 hotel	I
@@ -3853,6 +3862,7 @@ info.tz	I
 info.ve	I
 info.vn	I
 info.zm	I
+infusion-ai.cloud	P
 ing	I
 ing.pa	I
 ingatlan.hu	I
@@ -3973,6 +3983,7 @@ is-a-teacher.com	P
 is-a-techie.com	P
 is-a-therapist.com	P
 is-a.dev	P
+is-a.si	P
 is-an-accountant.com	P
 is-an-actor.com	P
 is-an-actress.com	P
@@ -5148,6 +5159,7 @@ md.us	I
 me	I
 me-central-1.elasticbeanstalk.com	P
 me-south-1.elasticbeanstalk.com	P
+me.bw	I
 me.eg	I
 me.eu.org	P
 me.in	I
@@ -5653,6 +5665,7 @@ myspreadshop.se	P
 mysynology.net	P
 mytabit.co.il	P
 mytabit.com	P
+mythex.app	P
 mytis.ru	P
 mytuleap.com	P
 myvnc.com	P
@@ -6976,6 +6989,7 @@ pt.eu.org	P
 pt.it	I
 pu.it	I
 pub	I
+pub.atoms.world	P
 pub.ec	I
 pub.instances.scw.cloud	P
 pub.sa	I
@@ -7004,6 +7018,7 @@ pwc	I
 py	I
 pya.jp	P
 pyatigorsk.ru	P
+pymaia.app	P
 pymnt.uk	P
 pythonanywhere.com	P
 pz.it	I
@@ -8000,6 +8015,7 @@ shop	I
 shop.brendly.ba	P
 shop.brendly.hr	P
 shop.brendly.rs	P
+shop.bw	I
 shop.ht	I
 shop.hu	I
 shop.pl	I
@@ -8272,6 +8288,7 @@ stream	I
 streamlit.app	P
 streamlitapp.com	P
 stripper.jp	P
+strw.app	P
 stryn.no	I
 student.aero	I
 studio	I
@@ -9445,6 +9462,7 @@ windsurf.build	P
 wine	I
 winners	I
 wios.gov.pl	I
+wirechunk.site	P
 wiredbladehosting.com	P
 witd.gov.pl	I
 with.playit.plus	P
