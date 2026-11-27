@@ -206,6 +206,7 @@ agano.niigata.jp	I
 agdenes.no	I
 agematsu.nagano.jp	I
 agency	I
+agental.site	P
 agents.aero	I
 agilevibes.app	P
 agr.br	I
@@ -249,6 +250,7 @@ airtraffic.aero	I
 aisai.aichi.jp	I
 aisho.shiga.jp	I
 aiven.app	P
+aiwebinfra.app	P
 aizubange.fukushima.jp	I
 aizumi.tokushima.jp	I
 aizumisato.fukushima.jp	I
@@ -2477,6 +2479,7 @@ eu.platform.sh	P
 eu.pythonanywhere.com	P
 eu1-plenit.com	P
 eun.eg	I
+eureka.zone	P
 eurodir.ru	P
 eurovision	I
 eus	I
@@ -4767,6 +4770,7 @@ lambda-url.us-east-1.on.aws	P
 lambda-url.us-east-2.on.aws	P
 lambda-url.us-west-1.on.aws	P
 lambda-url.us-west-2.on.aws	P
+lambforge.app	P
 lamborghini	I
 lamdong.vn	I
 lamer	I
@@ -4808,7 +4812,6 @@ lds	I
 le.it	I
 leadpages.co	P
 leangaviika.no	I
-leapcell.app	P
 lease	I
 leasing.aero	I
 lebesby.no	I
@@ -6793,6 +6796,7 @@ phone	I
 photo	I
 photography	I
 photos	I
+phronusercontent.com	P
 phutho.vn	I
 phuyen.vn	I
 phx.enscaled.us	P
@@ -7137,6 +7141,7 @@ relay.evervault.dev	P
 reliance	I
 reliantlabs.dev	P
 reliantpreview.dev	P
+relumesite.ai	P
 remotewd.com	P
 ren	I
 rendalen.no	I
@@ -8136,6 +8141,7 @@ soctrang.vn	I
 sodegaura.chiba.jp	I
 soeda.fukuoka.jp	I
 softbank	I
+softr.app	P
 software	I
 software.aero	I
 sogndal.no	I
@@ -8198,6 +8204,7 @@ spb.su	P
 spdns.de	P
 spdns.eu	P
 spdns.org	P
+spheron.live	P
 sphinx.mythic-beasts.com	P
 spjelkavik.no	I
 sport	I
@@ -8251,6 +8258,7 @@ static-access.net	P
 static.hf.space	P
 static.observableusercontent.com	P
 statichost.page	P
+staticrun.app	P
 stavanger.no	I
 stavern.no	I
 stc	I
@@ -9989,6 +9997,9 @@ xn--ystre-slidre-ujb.no	I
 xn--zbx025d.jp	I
 xn--zf0avx.hk	I
 xn--zfr164b	I
+xport.free	P
+xport.host	P
+xport.sh	P
 xs4all.space	P
 xtooldevice.com	P
 xwx.me	P

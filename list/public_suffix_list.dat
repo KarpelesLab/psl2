@@ -5,8 +5,8 @@
 // Please pull this list from, and only from https://publicsuffix.org/list/public_suffix_list.dat,
 // rather than any other VCS sites. Pulling from any other URL is not guaranteed to be supported.
 
-// VERSION: 2026-11-25_16-42-05_UTC
-// COMMIT: b859dc136777a7efd40c38fbf27a673a45ee31cf
+// VERSION: 2026-11-27_08-41-04_UTC
+// COMMIT: 1272021f561f09fb2a3edb7fccbb7feac10e7c6b
 
 // Instructions on pulling and using this list can be found at https://publicsuffix.org/list/.
 
@@ -11310,6 +11310,10 @@ adobeioruntime.net
 // Submitted by Gavin Brown <gavin.brown@centralnic.com>
 africa.com
 
+// agental : https://agental.io
+// Submitted by agental <squad@agental.io>
+agental.site
+
 // AgentbaseAI Inc. : https://assistant-ui.com
 // Submitted by Simon Farshid <security@assistant-ui.com>
 *.auiusercontent.com
@@ -11326,6 +11330,10 @@ beep.pl
 // Submitted by Aiven Security Team <security+appdomains@aiven.io>
 aiven.app
 *.aivencloud.com
+
+// AiWebInfra : https://aiwebinfra.com
+// Submitted by AiWebInfra <support@aiwebinfra.com>
+aiwebinfra.app
 
 // Akamai : https://www.akamai.com/
 // Submitted by Akamai Team <publicsuffixlist@akamai.com>
@@ -14623,6 +14631,10 @@ krellian.net
 // Abuse reports to <registry@kv-gmbh.de>
 co.de
 
+// Lambforge : https://lambforge.com
+// Submitted by Kristiyan Tachev <security@lambforge.com>
+lambforge.app
+
 // Laravel Holdings, Inc. : https://laravel.com
 // Submitted by André Valentin & James Brooks <security@laravel.com>
 shiptoday.app
@@ -14647,10 +14659,6 @@ svn-repos.de
 leadpages.co
 lpages.co
 lpusercontent.com
-
-// Leapcell : https://leapcell.io/
-// Submitted by Leapcell Team <support@leapcell.io>
-leapcell.app
 
 // Liara : https://liara.ir
 // Submitted by Amirhossein Badinloo <info@liara.ir>
@@ -15378,8 +15386,9 @@ omgs.page
 omg.lol
 
 // Omnibond Systems, LLC. : https://www.omnibond.com
-// Submitted by Cole Estep <cole@omnibond.com>
+// Submitted by Omnibond Support <support@omnibond.com>
 cloudycluster.net
+eureka.zone
 
 // OmniWe Limited : https://omniwe.com
 // Submitted by Vicary Archangel <vicary@omniwe.com>
@@ -15535,6 +15544,10 @@ mypep.link
 // Perplexity AI : https://www.perplexity.ai/
 // Submitted by Alec Xiang <security@perplexity.ai>
 pplx.app
+
+// Phron : https://phron.net
+// Submitted by Phron Security <security@phron.net>
+phronusercontent.com
 
 // Ping Identity : https://www.pingidentity.com
 // Submitted by Ping Identity <security@pingidentity.com>
@@ -15770,6 +15783,10 @@ instances.spawn.cc
 reliantlabs.dev
 sites.reliantlabs.dev
 reliantpreview.dev
+
+// Relume : https://www.relume.ai/
+// Submitted by Relume Security Team <security@relume.ai>
+relumesite.ai
 
 // Render : https://render.com
 // Submitted by Anurag Goel <dev@render.com>
@@ -16158,6 +16175,10 @@ streamlitapp.com
 // Submitted by Ian Streeter <ian@snowplowanalytics.com>
 try-snowplow.com
 
+// Softr : https://www.softr.io/
+// Submitted by Softr Support <support@softr.io>
+softr.app
+
 // Software Consulting Michal Zalewski : https://www.mafelo.com
 // Submitted by Michal Zalewski <security@mafelo.com>
 mafelo.net
@@ -16205,6 +16226,10 @@ spawnbase.app
 // SpeedPartner GmbH : https://www.speedpartner.de/
 // Submitted by Stefan Neufeind <info@speedpartner.de>
 customer.speedpartner.de
+
+// Spheron : https://www.spheron.ai
+// Submitted by Spheron Team <info@spheron.ai>
+spheron.live
 
 // Spreadshop (sprd.net AG) : https://www.spreadshop.com/
 // Submitted by Martin Breest <security@spreadshop.com>
@@ -16257,6 +16282,10 @@ indevs.in
 // Submitted by Matthias Merkel <matthias.merkel@staclar.com>
 musician.io
 novecore.site
+
+// Static.run : https://static.run
+// Submitted by Static.run <security@static.run>
+staticrun.app
 
 // statichost.eu : https://www.statichost.eu
 // Submitted by Eric Selin <admin@statichost.eu>
@@ -16759,6 +16788,12 @@ js.wpenginepowered.com
 // Submitted by Julian Uphoff <publicsuffixlist@xenoncloud.net>
 *.xenonconnect.de
 half.host
+
+// xPort : https://xport.dev
+// Submitted by Sascha Klein <security@xport.dev>
+xport.free
+xport.host
+xport.sh
 
 // XS4ALL Internet bv : https://www.xs4all.nl/
 // Submitted by Daniel Mostertman <unixbeheer+publicsuffix@xs4all.net>
