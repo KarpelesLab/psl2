@@ -5,8 +5,8 @@
 // Please pull this list from, and only from https://publicsuffix.org/list/public_suffix_list.dat,
 // rather than any other VCS sites. Pulling from any other URL is not guaranteed to be supported.
 
-// VERSION: 2026-11-27_08-41-04_UTC
-// COMMIT: 1272021f561f09fb2a3edb7fccbb7feac10e7c6b
+// VERSION: 2026-11-27_12-48-40_UTC
+// COMMIT: 73edc270543c9a079e6a21f310adc5744ee7c20d
 
 // Instructions on pulling and using this list can be found at https://publicsuffix.org/list/.
 
@@ -16442,6 +16442,10 @@ telebit.io
 // Teleport : https://goteleport.com
 // Submitted by Rob Picard <security@goteleport.com>
 teleport.sh
+
+// TerraMaster : https://www.terra-master.com/
+// Submitted by TerraMaster Team <psl@terra-master.com>
+tnas.online
 
 // Terramind.com, Inc. : https://terramind.com
 // Submitted by Terramind Sites <sites@terramind.com>
